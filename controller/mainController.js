@@ -2,24 +2,24 @@ const con = require('../database/connection');
 exports.getIndex = (req,res)=>{
     res.render("index");
 }
-function registerUser(username, password, callback) {
-  const sql = 'INSERT INTO users (username, password) VALUES (?, ?)';
-  con.query(sql, [username, password], (err, result) => {
-    callback(err, result);
-  });
+
+exports.getHome = (req,res)=>{
+    res.render("customer/dashboard");
+}
+exports.getDash = (req,res)=>{
+    res.render("admin/dashboard");
 }
 
-function loginUser(username, password, callback) {
-  const sql = 'SELECT * FROM users WHERE username = ? AND password = ?';
-  con.query(sql, [username, password], (err, result) => {
-    callback(err, result);
-  });
-}
-
-module.exports = {
-  registerUser,
-  loginUser,
-};
+exports.isAuthenticated = (req, res, next) => {
+    if (req.session.user) {
+      // User is authenticated, proceed to the next middleware or route handler
+      next();
+    } else {
+      // User is not authenticated, redirect to login page
+      req.flash('message', 'Please log in to access the dashboard.');
+      res.redirect('/showLogin');
+    }
+  };
 
 
 
