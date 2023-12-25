@@ -1,8 +1,13 @@
 <nav
-    class="navbar navbar-expand-lg navbar-dark bg-dark"
+    class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
 >
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <!-- Offcanvas trigger -->
+        <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        <!-- end offcanvas -->
+        <a class="navbar-brand me-auto" href="#">Navbar</a>
         <button
             class="navbar-toggler d-lg-none"
             type="button"
@@ -17,7 +22,7 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             
             <form class="d-flex ms-auto">
-                <div class="input-group">
+                <div class="input-group my-3 my-lg-0">
                     <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <button class="btn btn-primary" type="button" id="basic-addon2"><i class="fa fa-search" aria-hidden="true"></i></button>
                   </div>
@@ -52,31 +57,80 @@
 </nav>
 
 <!-- off-canvas -->
-<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-    Link with href
-  </a>
-  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-    Button with data-bs-target
-  </button>
-  
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+
+  <div class="offcanvas offcanvas-start bg-dark text-light" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
-      <div>
-        Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
-      </div>
-      <div class="dropdown mt-3">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-          Dropdown button
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
+    <div class="offcanvas-body p-0">
+      <nav class="navbar-light">
+        <ul class="navbar-nav">
+            <li>
+                <div class="text-muted small fw-bold text-uppercase px-3">Core</div>
+            </li>
+            <li>
+                <a href="" class="nav-link px-3 active">
+                    <span class="me-2"><i class="fa fa-dashboard" aria-hidden="true"></i></span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="">
+                <hr>
+            </li>
+            <li>
+                <div class="text-muted small fw-bold text-uppercase px-3">Interface</div>
+            </li>
+            <li>
+                <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                    <span class="me-2"><i class="fa fa-spoon" aria-hidden="true"></i></span>
+                    <span>Menu</span>
+                    <span class="right-icon ms-auto"><i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+                  </a>
+                  <div class="collapse" id="collapseExample1">
+                    <div class="">
+                        <ul class="navbar-nav ps-3">
+                            <li>
+                                <a href="" class="nav-link px-3">
+                                    <span class="me-2"><i class="fa fa-spoon" aria-hidden="true"></i></span>
+                                    <span>Menu</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" class="nav-link px-3 active">
+                                    <span class="me-2"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                    <span>Add Menu</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                  </div>
+            </li>
+            <li>
+                <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
+                    <span class="me-2"><i class="fa fa-spoon" aria-hidden="true"></i></span>
+                    <span>Category</span>
+                    <span class="right-icon ms-auto"><i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+                  </a>
+                  <div class="collapse" id="collapseExample2">
+                    <div class="">
+                        <ul class="navbar-nav ps-3">
+                            <li>
+                                <a href="" class="nav-link px-3 ">
+                                    <span class="me-2"><i class="fa fa-spoon" aria-hidden="true"></i></span>
+                                    <span>Category</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" class="nav-link px-3 ">
+                                    <span class="me-2"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                    <span>Add Category</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                  </div>
+            </li>
+            
         </ul>
-      </div>
+      </nav>
     </div>
   </div>
