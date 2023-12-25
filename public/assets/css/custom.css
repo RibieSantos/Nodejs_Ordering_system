@@ -1,0 +1,29 @@
+.bg-welcome{
+    background-image: linear-gradient(rgba(0,0,0,.6)70%,rgba(66, 21, 7, 0.3)), url('../images/bg.jpg');
+    height: 100vh;
+    background-position: center;
+    background-size: cover;
+    
+}
+
+.logo{
+    height: 45px;
+    border-radius: 100%;
+}
+.menu_image {
+    height: 150px;
+    object-fit: cover;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.cards{
+    width: 250px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    box-shadow: 5px 5px 10px rgb(110, 110, 110);
+}
+
+
+.custom-bg{
+    background-color: rgba(127, 38, 190, 0.8);
+}

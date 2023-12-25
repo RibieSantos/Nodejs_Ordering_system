@@ -1,0 +1,23 @@
+:root{
+    --off-canvas-width: 270px;
+    --top-navbar-height:56px;
+}
+
+#offcanvasExample{
+    width: var(--off-canvas-width);
+}
+
+@media (min-width: 992px) {
+    body{
+        overflow: none  !important;
+    }
+    .offcanvas-backdrop::before{
+        display: none;
+    }
+    #offcanvasExample{
+        transform: none;
+        visibility: visible !important;
+        top: var(--top-navbar-height);
+        height: calc(100% - var(--top-navbar-height));
+    }
+}
