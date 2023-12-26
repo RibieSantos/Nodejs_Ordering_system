@@ -27,7 +27,7 @@ exports.login = (req,res)=>{
                     req.session.user = user;
 
                     if (user.user_type === "admin") {
-                        res.redirect("/dashboard");
+                        res.redirect("/admin/dashboard");
                     }else{
                         res.redirect("/home");
                     }

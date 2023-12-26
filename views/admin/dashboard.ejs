@@ -1,129 +1,132 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Title</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include('./partials/header') %>
+    <title>Admin - Dashboard</title>
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
 
-        <%- include('./partials/header') %>
-    </head>
-
-    <body>
-        <%- include('./partials/nav') %>
-        
-
-        <main class="mt-5 pt-3">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12 fw-bold fs-3">Dashboard</div>
+    <main class="mt-5 pt-3">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Dashboard</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <div class="card bg-primary text-white h-100">
+              <div class="card-body">
+                <p class="h4">Users</p>
+                <p class="text-end mt-4 fs-5">P10000000</p>
+              </div>
+              <a href="" class="text-white">
+                <div class="card-footer d-flex">
+                  View Details
+                  <span class="ms-auto">
+                    <i class="bi bi-chevron-right"></i>
+                  </span>
                 </div>
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <div class="card text-white bg-primary h-100">
-                            <div class="card-header">Header</div>
-                            <div class="card-body">
-                              <h5 class="card-title">Primary card title</h5>
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="card text-white bg-warning h-100">
-                            <div class="card-header">Header</div>
-                            <div class="card-body">
-                              <h5 class="card-title">Primary card title</h5>
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="card text-white bg-success h-100">
-                            <div class="card-header">Header</div>
-                            <div class="card-body">
-                              <h5 class="card-title">Primary card title</h5>
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="card text-white bg-danger h-100">
-                            <div class="card-header">Header</div>
-                            <div class="card-body">
-                              <h5 class="card-title">Primary card title</h5>
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            </div>
-                          </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                Charts
-                            </div>
-                            <div class="card-body">
-                                <canvas class="chart" width="400" height="200"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                Charts
-                            </div>
-                            <div class="card-body">
-                                <canvas class="chart" width="400" height="200"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                Data Tables
-                            </div>
-                            <div class="card-body">
-                                <div
-                                    class="table-responsive"
-                                >
-                                    <table
-                                        class="table"
-                                    >
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Column 1</th>
-                                                <th scope="col">Column 2</th>
-                                                <th scope="col">Column 3</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="">
-                                                <td scope="row">R1C1</td>
-                                                <td>R1C2</td>
-                                                <td>R1C3</td>
-                                            </tr>
-                                            <tr class="">
-                                                <td scope="row">Item</td>
-                                                <td>Item</td>
-                                                <td>Item</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </a>
             </div>
-        </main>
-
-        <!-- Bootstrap JavaScript Libraries -->
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card bg-warning text-dark h-100">
+              <div class="card-body">
+                <p class="h4">Orders</p>
+                <p class="text-end mt-4 fs-5">P10000000</p>
+              </div>
+              <a href="" class="text-dark">
+                <div class="card-footer d-flex">
+                  View Details
+                  <span class="ms-auto">
+                    <i class="bi bi-chevron-right"></i>
+                  </span>
+                </div>
+                </a>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card bg-success text-white h-100">
+              <div class="card-body">
+                <p class="h4">Menu</p>
+                <p class="text-end mt-4 fs-5">P10000000</p>
+              </div>
+              <a href="" class="text-white">
+                <div class="card-footer d-flex">
+                  View Details
+                  <span class="ms-auto">
+                    <i class="bi bi-chevron-right"></i>
+                  </span>
+                </div>
+                </a>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card bg-danger text-white h-100">
+              <div class="card-body">
+                <p class="h4">Total Sales</p>
+                <p class="text-end mt-4 fs-5">P10000000</p>
+              </div>
+              <a href="" class="text-white">
+              <div class="card-footer d-flex">
+                View Details
+                <span class="ms-auto">
+                  <i class="bi bi-chevron-right"></i>
+                </span>
+              </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <div class="card">
+              <div class="card-header">
+                <span><i class="bi bi-table me-2"></i></span> Customer Order Table
+              </div>
+              <div class="card-body">
+                <div
+                  class="table-responsive"
+                >
+                  <table
+                    class="table data-table table-primary"
+                  >
+                    <thead>
+                      <tr>
+                        <th scope="col">Column 1</th>
+                        <th scope="col">Column 2</th>
+                        <th scope="col">Column 3</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="">
+                        <td scope="row">R1C1</td>
+                        <td>R1C2</td>
+                        <td>R1C3</td>
+                      </tr>
+                      <tr class="">
+                        <td scope="row">Item</td>
+                        <td>Item</td>
+                        <td>Item</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
         <%- include('./partials/footer') %>
-    </body>
+
+  </body>
 </html>

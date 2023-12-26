@@ -11,7 +11,17 @@ router.get('/logout', authController.logout);
 
 // landing page
 router.get('/home', mainCon.isAuthenticated, mainCon.getHome);
-router.get('/dashboard', mainCon.isAuthenticated, mainCon.getDash);
+router.get('/admin/dashboard', mainCon.isAuthenticated, mainCon.getDash);
+
+//Admin Side
+//Menu
+router.get('/admin/menu',mainCon.isAuthenticated,mainCon.getMenu);
+router.get('/admin/addMenu',mainCon.isAuthenticated,mainCon.getAddMenu);
+
+//Category
+router.get('/admin/category',mainCon.isAuthenticated,mainCon.getCategory);
+router.get('/admin/addCategory',mainCon.isAuthenticated,mainCon.getAddCategory);
+
 
 // Welcome Route
 router.get('/',mainCon.getIndex);

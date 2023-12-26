@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include('../partials/header') %>
+    <title>Admin - Menu</title>
+  </head>
+  <body>
+    <%- include('../partials/nav') %>
+
+    <main class="mt-5 pt-3">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Menu</h4>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div
+                    class="table-responsive"
+                >
+                    <table
+                        class="table data-table"
+                    >
+                        <thead>
+                            <tr>
+                                <th scope="col">Menu Image</th>
+                                <th scope="col">Menu Title</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="">
+                                <td scope="row">R1C1</td>
+                                <td>R1C2</td>
+                                <td>R1C3</td>
+                                <td>R1C3</td>
+                                <td>R1C3</td>
+                                <td>
+                                    <div class="d-flex">
+                                        <form action="" method="post">
+                                            <button type="submit" class="btn btn-danger mx-1"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </form>
+                                        <a href="" class="btn btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                    </div>
+                                    
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+      </div>
+    </main>
+    
+        <%- include('../partials/footer') %>
+
+  </body>
+</html>

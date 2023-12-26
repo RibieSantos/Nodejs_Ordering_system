@@ -21,5 +21,42 @@ exports.isAuthenticated = (req, res, next) => {
     }
   };
 
+// Menu Controller
+exports.getMenu = (req,res)=>{
+  const sql = "SELECT * FROM menu";
+  con.query(sql,[],(err,results)=>{
+
+    res.render('admin/menu/menu',{menu:results}); 
+
+  });
+}
+exports.getAddMenu = (req,res)=>{
+  const sql = "SELECT * FROM menu";
+  con.query(sql,[],(err,results)=>{
+
+    res.render('admin/menu/addMenu',{menu:results}); 
+
+  });
+}
+
+//Category Controller
+exports.getCategory = (req,res)=>{
+  const sql = "SELECT * FROM category";
+  con.query(sql,[],(err,results)=>{
+
+    res.render('admin/category/category',{category:results}); 
+
+  });
+}
+
+exports.getAddCategory = (req,res)=>{
+  const sql = "SELECT * FROM category";
+  con.query(sql,[],(err,results)=>{
+
+    res.render('admin/category/addCategory',{category:results}); 
+
+  });
+}
+
 
 
