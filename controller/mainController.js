@@ -21,6 +21,7 @@ exports.isAuthenticated = (req, res, next) => {
     }
   };
 
+//Admin Side
 // Menu Controller
 exports.getMenu = (req,res)=>{
   const sql ="SELECT menu.menu_id,menu.menu_title, menu.menu_desc, menu.menu_price, menu.menu_status, menu.menu_image, category.cat_title FROM menu JOIN category ON menu.cat_id = category.cat_id";;
@@ -82,11 +83,6 @@ exports.deleteMenu = (req,res)=>{
   });
 }
 
-
-
-
-
-
 //Category Controller
 exports.getCategory = (req,res)=>{
   const sql = "SELECT * FROM category";
@@ -106,7 +102,17 @@ exports.getAddCategory = (req,res)=>{
   });
 }
 
-
+//Customer Side
+//Cart
+exports.getCart = (req,res)=>{
+  res.render('customer/cart/cart'); 
+}
+exports.getOrders = (req,res)=>{
+  res.render('customer/orders/orders'); 
+}
+exports.getOrderHistory = (req,res)=>{
+  res.render('customer/order_history/order_history'); 
+}
 
 
 exports.logout = (req, res) => {

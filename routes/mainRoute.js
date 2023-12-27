@@ -38,6 +38,11 @@ router.get('/admin/category',mainCon.isAuthenticated,mainCon.getCategory);
 router.get('/admin/addCategory',mainCon.isAuthenticated,mainCon.getAddCategory);
 
 
+//Customer Side
+router.get('/customer/cart',mainCon.isAuthenticated,mainCon.getCart);
+router.get('/customer/orders',mainCon.isAuthenticated,mainCon.getOrders);
+router.get('/customer/order_history',mainCon.isAuthenticated,mainCon.getOrderHistory);
+
 // Welcome Route
 router.get('/',mainCon.getIndex);
 router.get('/logout',mainCon.logout);
