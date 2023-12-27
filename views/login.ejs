@@ -39,7 +39,18 @@
       </div>
     </div>
   </div>
-
+  <% if (messages && messages.length > 0) { %>
+    <script>
+      // Display SweetAlert with flash message
+      Swal.fire({
+        title: 'Success',
+        text: '<%= messages[0] %>',
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+      });
+    </script>
+  <% } %>
   <!-- Include Bootstrap JS and Popper.js (required for some Bootstrap features) -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>

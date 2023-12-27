@@ -1,68 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <%- include('../partials/header') %>
-    <title>Admin - Menu</title>
-  </head>
-  <body>
+        <title>Admin - Menu</title>
+</head>
+
+<body>
     <%- include('../partials/nav') %>
 
-    <main class="mt-5 pt-3">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-            <h4>Menu</h4>
-          </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div
-                    class="table-responsive"
-                >
-                    <table
-                        class="table data-table"
-                    >
-                        <thead>
-                            <tr>
-                                <th scope="col">Menu Image</th>
-                                <th scope="col">Menu Title</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="">
-                                <td scope="row">R1C1</td>
-                                <td>R1C2</td>
-                                <td>R1C3</td>
-                                <td>R1C3</td>
-                                <td>R1C3</td>
-                                <td>
-                                    <div class="d-flex">
-                                        <form action="" method="post">
-                                            <button type="submit" class="btn btn-danger mx-1"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                        </form>
-                                        <a href="" class="btn btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                    </div>
-                                    
-                                </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
+        <main class="mt-5 pt-3">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Menu</h4>
+                    </div>
                 </div>
-                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table data-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Menu Image</th>
+                                        <th scope="col">Menu Title</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <!-- Inside the table body -->
+                                <tbody>
+                                    <% menu.forEach(menus=> { %>
+                                        <tr class="">
+                                            <td scope="row">
+                                                <img src="/foods/<%= menus.menu_image %>" alt="" width="100"
+                                                    height="100" style="object-fit: cover;">
+                                            </td>
+                                            <td>
+                                                <%= menus.menu_title %>
+                                            </td>
+                                            <td>
+                                                <%= menus.menu_desc %>
+                                            </td>
+                                            <td>
+                                                <%= menus.cat_title %>
+                                            </td>
+                                            <td>
+                                                <%= menus.menu_price %>
+                                            </td>
+                                            <td>
+                                                <%= menus.menu_status %>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <form id="deleteForm" action="/admin/menu/delete/<%= menus.menu_id %>" method="post">
+                                                        <button type="button" class="btn btn-danger mx-1" onclick="confirmDelete()">
+                                                          <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </button>
+                                                      </form>
+                                                    <a href="#" class="btn btn-success"><i class="fa fa-edit"
+                                                            aria-hidden="true"></i></a>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-        </div>
-      </div>
-    </main>
-    
+        </main>
+
+        <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
+
+        <script>
+            function confirmDelete() {
+              // Display a SweetAlert confirmation dialog
+              Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you really want to delete this menu item?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                // If the user clicks "Yes," proceed with the form submission
+                if (result.isConfirmed) {
+                  document.getElementById('deleteForm').submit();
+                }
+              });
+          
+              // Prevent the default form submission
+              return false;
+            }
+          </script>
+          <% if (messages && messages.length > 0) { %>
+            <script>
+              // Display SweetAlert with flash message
+              Swal.fire({
+                title: 'Success',
+                text: '<%= messages[0] %>',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+              });
+            </script>
+          <% } %>
         <%- include('../partials/footer') %>
 
-  </body>
+</body>
+
 </html>
