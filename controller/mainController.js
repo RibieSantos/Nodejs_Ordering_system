@@ -2,10 +2,18 @@ const con = require('../database/connection');
 exports.getIndex = (req,res)=>{
     res.render("index");
 }
+//Customer Dashboard
+exports.getHome = (req, res) => {
+  const sql = "SELECT menu.menu_id, menu.menu_title, menu.menu_desc, menu.menu_price, menu.menu_status, menu.menu_image, category.cat_title FROM menu JOIN category ON menu.cat_id = category.cat_id";
+  con.query(sql, [], (err, results) => {
+    if (err) {
+      console.error('Error querying menu table:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.render("customer/dashboard", { menu: results });
+  });
+};
 
-exports.getHome = (req,res)=>{
-    res.render("customer/dashboard");
-}
 exports.getDash = (req,res)=>{
     res.render("admin/dashboard");
 }
@@ -114,7 +122,18 @@ exports.getOrderHistory = (req,res)=>{
   res.render('customer/order_history/order_history'); 
 }
 
+exports.getMenuForCustomer = (req, res) => {
+  const sql = "SELECT menu_id, menu_title, menu_desc, menu_price, menu_image FROM menu";
+  con.query(sql, [], (err, results) => {
+    if (err) {
+      console.error('Error querying menu table:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.render('customer/dashboard', { menu: results });
+  });
+};
 
+//logout
 exports.logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) {

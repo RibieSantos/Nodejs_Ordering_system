@@ -1,24 +1,111 @@
+<!-- cart.ejs -->
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <%- include('../partials/header') %>
-    <title>Cart</title>
-    <style>
-      body {
-        margin-top: 80px;
-      }
-    </style>
-  <body>
-    <%- include('../partials/nav') %>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <%- include('../partials/header') %>
+  <title>Cart</title>
+  <link rel="stylesheet" href="/path/to/your/style.css"> <!-- Link to your external style.css file -->
+  <style>
+    /* style.css */
 
+body {
+  font-family: 'Arial', sans-serif;
+  margin-top: 80px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.cart-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.cart-table th, .cart-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.update-button, .delete-button, .checkout-button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+.total-section {
+  text-align: right;
+}
+
+  </style>
+</head>
+<body>
+  <%- include('../partials/nav') %>
+
+  <div class="cart-container">
     <center>
       <h1>Cart</h1>
     </center>
 
-    <%- include('../partials/footer') %>
-  </body>
-</html>
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total Amount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Sample product row, repeat this structure for each product -->
+        <tr>
+          <td>1</td>
+          <td><img src="path/to/product-image.jpg" alt="Product Image" class="product-image" /></td>
+          <td>Product Title</td>
+          <td>$19.99</td>
+          <td>
+            <input type="number" value="1" min="1" />
+          </td>
+          <td>$19.99</td>
+          <td>
+            <button class="update-button">Update</button>
+            <button class="delete-button">Delete</button>
+          </td>
+        </tr>
+        <!-- Repeat the above row structure for each product -->
+      </tbody>
+    </table>
 
+    <div class="total-section">
+      <p>Total Amount: $19.99</p>
+      <button class="checkout-button">Checkout</button>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>
