@@ -59,12 +59,13 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <form id="deleteForm" action="/admin/menu/delete/<%= menus.menu_id %>" method="post">
-                                                        <button type="button" class="btn btn-danger mx-1" onclick="confirmDelete()">
+                                                    <form id="deleteForm<%= menus.menu_id %>" action="/admin/menu/delete/<%= menus.menu_id %>" method="post">
+                                                        <button type="button" class="btn btn-danger mx-1" onclick="confirmDelete('<%= menus.menu_id %>')">
                                                           <i class="fa fa-trash" aria-hidden="true"></i>
                                                         </button>
                                                       </form>
-                                                    <a href="#" class="btn btn-success"><i class="fa fa-edit"
+                                                      
+                                                    <a href="/admin/edit/<%= menus.menu_id %>" class="btn btn-success"><i class="fa fa-edit"
                                                             aria-hidden="true"></i></a>
 
                                                 </div>
@@ -84,26 +85,27 @@
         <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
 
         <script>
-            function confirmDelete() {
-              // Display a SweetAlert confirmation dialog
-              Swal.fire({
-                title: 'Are you sure?',
-                text: 'Do you really want to delete this menu item?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
-              }).then((result) => {
-                // If the user clicks "Yes," proceed with the form submission
-                if (result.isConfirmed) {
-                  document.getElementById('deleteForm').submit();
-                }
-              });
-          
-              // Prevent the default form submission
-              return false;
-            }
+            function confirmDelete(menuId) {
+                // Display a SweetAlert confirmation dialog
+                Swal.fire({
+                  title: 'Are you sure?',
+                  text: 'Do you really want to delete this menu item?',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#d33',
+                  cancelButtonColor: '#3085d6',
+                  confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                  // If the user clicks "Yes," proceed with the form submission
+                  if (result.isConfirmed) {
+                    document.getElementById(`deleteForm${menuId}`).submit();
+                  }
+                });
+              
+                // Prevent the default form submission
+                return false;
+              }
+              
           </script>
           <% if (messages && messages.length > 0) { %>
             <script>
@@ -117,6 +119,7 @@
               });
             </script>
           <% } %>
+          
         <%- include('../partials/footer') %>
 
 </body>

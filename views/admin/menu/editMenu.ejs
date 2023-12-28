@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include('../partials/header') %>
+        <title>Admin - Update Menu</title>
+</head>
+
+<body>
+    <%- include('../partials/nav') %>
+
+        <main class="mt-5 pt-3">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Update Menu</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="/admin/update/<%= menu.menu_id %>" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Menu Image</label>
+                                <input type="file" class="form-control" value="<%= menu.menu_image %>" name="menu_image" placeholder="" />
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Menu Title</label>
+                                <input type="text" class="form-control" value="<%= menu.menu_title %>" name="menu_title" placeholder="" />
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Menu Description</label>
+                                <input type="text" class="form-control" value="<%= menu.menu_desc %>" name="menu_desc" placeholder="" />
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Menu Price</label>
+                                <input type="text" class="form-control" value="<%= menu.menu_price %>" name="menu_price" placeholder="" />
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Menu Category</label>
+                                <select class="form-select form-select" name="menu_cat">
+                                    <% categories.forEach(category => { %>
+                                        <option value="<%= category.cat_id %>" <%= menu.cat_id === category.cat_id ? 'selected' : '' %>><%= category.cat_title %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="" class="form-label">Menu Status</label>
+                                <select class="form-select form-select" name="menu_status">
+                                    <option value="Available" <%= menu.menu_status === 'Available' ? 'selected' : '' %>>Available</option>
+                                    <option value="Not Available" <%= menu.menu_status === 'Not Available' ? 'selected' : '' %>>Not Available</option>
+                                  </select>
+                            </div>
+                            <input type="submit" value="update Menu" class="btn btn-outline-success w-100">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <%- include('../partials/footer') %>
+
+</body>
+
+</html>

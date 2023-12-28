@@ -30,12 +30,15 @@ router.get('/admin/dashboard', mainCon.isAuthenticated, mainCon.getDash);
 router.get('/admin/menu',mainCon.isAuthenticated,mainCon.getMenu);
 router.get('/admin/addMenu',mainCon.isAuthenticated,mainCon.getAddMenu);
 router.post('/admin/addMenu/add',upload.single('menu_image'),mainCon.isAuthenticated,mainCon.addMenu);
-// router.put('/admin/update/:id',mainCon.isAuthenticated,mainCon);
+router.get('/admin/edit/:id',mainCon.isAuthenticated,mainCon.getEditMenu);
+router.post('/admin/update/:id',mainCon.isAuthenticated,mainCon.updateMenu);
 router.post('/admin/menu/delete/:id',mainCon.isAuthenticated,mainCon.deleteMenu);
 
 //Category
 router.get('/admin/category',mainCon.isAuthenticated,mainCon.getCategory);
 router.get('/admin/addCategory',mainCon.isAuthenticated,mainCon.getAddCategory);
+router.post('/admin/category/delete/:id',mainCon.isAuthenticated,mainCon.deleteMenu);
+
 
 
 // Welcome Route
