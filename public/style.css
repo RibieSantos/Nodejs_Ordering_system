@@ -1,11 +1,13 @@
-body {
-    font-family: 'Arial', sans-serif;
-    margin-top: 80px;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   }
-
+  .cart-container {
+    max-width: 800px;
+    margin: 80px auto 0;
+  }
   .product-card {
     width: 300px;
     border: 1px solid #ddd;
@@ -13,23 +15,19 @@ body {
     padding: 10px;
     text-align: center;
   }
-
   .product-image {
     width: 100%;
     max-height: 200px;
     object-fit: cover;
   }
-
   .product-title {
     font-size: 18px;
     margin: 10px 0;
   }
-
   .product-price {
     font-size: 16px;
     color: #27ae60;
   }
-
   .add-to-cart-button {
     background-color: #3498db;
     color: #fff;

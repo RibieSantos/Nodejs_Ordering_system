@@ -8,6 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="style.css">
     <%- include('./partials/header') %>
     <title>Customer - Dashboard</title>
@@ -15,18 +16,20 @@
   <body>
     <%- include('./partials/nav') %>
 
-    <center>
-      <h1>Menu</h1>
-    </center>
-    <!-- Product Cards -->
-    <% menu.forEach(product => { %>
-      <div class="product-card" data-toggle="modal" data-target="#productModal" data-image="<%= product.menu_image %>" data-title="<%= product.menu_title %>" data-price="<%= product.menu_price %>">
-        <img class="product-image" src="<%= product.menu_image %>" alt="<%= product.menu_title %>" />
-        <div class="product-title"><%= product.menu_title %></div>
-        <div class="product-price">$<%= product.menu_price %></div>
-        <button class="add-to-cart-button" onclick="addToCart('<%= product.menu_image %>', '<%= product.menu_title %>', '<%= product.menu_price %>')">Add to Cart</button>
-      </div>
-    <% }); %>
+    <div class="cart-container">
+      <center>
+        <h1>Menu</h1>
+      </center>
+      <!-- Product Cards -->
+      <% menu.forEach(product => { %>
+        <div class="product-card" data-toggle="modal" data-target="#productModal" data-image="<%= product.menu_image %>" data-title="<%= product.menu_title %>" data-price="<%= product.menu_price %>">
+          <img class="product-image" src="<%= product.menu_image %>" alt="<%= product.menu_title %>" />
+          <div class="product-title"><%= product.menu_title %></div>
+          <div class="product-price">$<%= product.menu_price %></div>
+          <button class="add-to-cart-button" onclick="addToCart('<%= product.menu_id %>', '<%= product.menu_image %>', '<%= product.menu_title %>', '<%= product.menu_price %>')">Add to Cart</button>
+        </div>
+      <% }); %>
+    </div>
 
     <!-- Modal to Add to Cart to -->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
