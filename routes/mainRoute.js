@@ -40,6 +40,16 @@ router.get('/admin/addCategory',mainCon.isAuthenticated,mainCon.getAddCategory);
 router.post('/admin/category/delete/:id',mainCon.isAuthenticated,mainCon.deleteMenu);
 
 
+//Customer Side
+// Update the route to call the getCart function
+router.get('/customer/cart', mainCon.isAuthenticated, mainCon.getCart);
+
+router.get('/customer/orders',mainCon.isAuthenticated,mainCon.getOrders);
+router.get('/customer/order_history',mainCon.isAuthenticated,mainCon.getOrderHistory);
+router.get('/customer/dashboard', mainCon.isAuthenticated, mainCon.getMenuForCustomer);
+// Add the following route to handle adding items to the cart
+router.post('/addToCart', mainCon.isAuthenticated, mainCon.addToCart);
+
 
 // Welcome Route
 router.get('/',mainCon.getIndex);
