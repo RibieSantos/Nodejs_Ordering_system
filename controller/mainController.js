@@ -75,7 +75,6 @@ exports.addMenu = (req, res) => {
   );
 };
 
-
 exports.getEditMenu = (req,res)=>{
   const id = req.params.id;
   const sql = "SELECT * FROM menu JOIN category ON menu.cat_id = category.cat_id WHERE menu_id = ?";
@@ -116,11 +115,7 @@ exports.updateMenu = (req, res) => {
   
 };
 
-
-
-
 //Delete Menu
-
 exports.deleteMenu = (req,res)=>{
   const id = req.params.id;
   const sql = "DELETE FROM menu WHERE menu_id = ?";
@@ -172,9 +167,24 @@ exports.getCart = (req, res) => {
     res.render('customer/cart/cart', { cart: results });
   });
 };
-exports.getOrders = (req,res)=>{
-  res.render('customer/orders/orders'); 
+exports.getOrders = (req, res) => {
+  const userId = req.session.user.user_id;
+  const sql = `
+    SELECT orders.ord_id, orders.user_id, orders.menu_id, orders.quantity, orders.total_amount, orders.ord_date, menu.menu_title, menu.menu_image 
+    FROM orders 
+    JOIN menu ON orders.menu_id = menu.menu_id 
+    WHERE orders.user_id = ?`;
+
+  con.query(sql, [userId], (err, orders) => {
+    if (err) {
+      console.error('Error querying orders:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.render('customer/orders/orders', { orders }); 
+  });
 }
+
+
 exports.getOrderHistory = (req,res)=>{
   res.render('customer/order_history/order_history'); 
 }
@@ -202,6 +212,35 @@ exports.addToCart = (req, res) => {
   });
 };
 
+//Checkout Button
+exports.checkout = (req, res) => {
+  const userId = req.session.user.user_id;
+  const { cart } = req.body;
+
+  const insertOrderSQL =
+    'INSERT INTO orders (user_id, menu_id, quantity, total_amount, ord_date) VALUES (?, ?, ?, ?, NOW())';
+
+  const deleteCartSQL = 'DELETE FROM cart WHERE user_id = ?';
+
+  // Iterate through the items in the cart and insert them into the 'orders' table
+  cart.forEach((item) => {
+    const { menu_id, quantity, total_price } = item;
+    con.query(insertOrderSQL, [userId, menu_id, quantity, total_price], (err) => {
+      if (err) {
+        console.error('Error inserting order into the database:', err);
+        return res.status(500).send('Internal Server Error');
+      }
+    });
+  });
+  // Delete the items from the cart after checkout
+  con.query(deleteCartSQL, [userId], (err) => {
+    if (err) {
+      console.error('Error deleting cart items from the database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.redirect('/customer/orders');
+  });
+};
 
 //logout
 exports.logout = (req, res) => {

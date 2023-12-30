@@ -49,6 +49,9 @@ router.get('/customer/order_history',mainCon.isAuthenticated,mainCon.getOrderHis
 router.get('/customer/dashboard', mainCon.isAuthenticated, mainCon.getMenuForCustomer);
 // Add the following route to handle adding items to the cart
 router.post('/addToCart', mainCon.isAuthenticated, mainCon.addToCart);
+// Add the following route to handle checkout
+router.post('/customer/checkout', mainCon.isAuthenticated, mainCon.checkout);
+
 
 
 // Welcome Route
