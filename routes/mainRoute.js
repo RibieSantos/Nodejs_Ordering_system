@@ -37,7 +37,8 @@ router.post('/admin/menu/delete/:id',mainCon.isAuthenticated,mainCon.deleteMenu)
 //Category
 router.get('/admin/category',mainCon.isAuthenticated,mainCon.getCategory);
 router.get('/admin/addCategory',mainCon.isAuthenticated,mainCon.getAddCategory);
-router.post('/admin/category/delete/:id',mainCon.isAuthenticated,mainCon.deleteMenu);
+router.post('/admin/addCategory/add',mainCon.isAuthenticated,mainCon.addCategory);
+router.post('/admin/category/delete/:id',mainCon.isAuthenticated,mainCon.deleteCategory);
 
 
 //Customer Side

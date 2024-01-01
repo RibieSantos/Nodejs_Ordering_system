@@ -15,9 +15,33 @@ exports.getHome = (req, res) => {
   });
 };
 
-exports.getDash = (req,res)=>{
-    res.render("admin/dashboard");
-}
+// Corrected Node.js code
+exports.getDash = (req, res) => {
+  const menuQuery = "SELECT COUNT(*) AS menu_count FROM menu";
+  const ordersQuery = "SELECT COUNT(*) FROM orders";
+  const customerQuery = "SELECT * FROM users WHERE user_type = ?";
+  const customerCountQuery = "SELECT COUNT(*) AS customer_count FROM users WHERE user_type = ?";
+  const totalSalesQuery = "SELECT SUM(total_amount) AS total_sales FROM orderdetails";
+
+  con.query(menuQuery, [], (err, menuResults) => {
+    con.query(ordersQuery, [], (orderErr, orderResults) => {
+      con.query(customerQuery, ['customer'], (cusErr, cusResults) => {
+        con.query(customerCountQuery, ['customer'], (countErr, countResults) => {
+          con.query(totalSalesQuery, [], (totalErr, totalResults) => {
+            res.render("admin/dashboard", {
+              menus: menuResults,
+              orders: orderResults,
+              customers: cusResults,
+              cusCount: countResults,
+              totals: totalResults
+            });
+          });
+        });
+      });
+    });
+  });
+};
+
 
 exports.isAuthenticated = (req, res, next) => {
     if (req.session.user) {
@@ -131,6 +155,9 @@ exports.deleteMenu = (req,res)=>{
     res.redirect('/admin/menu');
   });
 }
+
+
+
 //Category Controller
 exports.getCategory = (req,res)=>{
   const sql = "SELECT * FROM category";
@@ -148,7 +175,16 @@ exports.getAddCategory = (req,res)=>{
 
   });
 }
-exports.deleteMenu = (req,res)=>{
+
+exports.addCategory = (req,res)=>{
+  const {cat_title,cat_desc} = req.body;
+  const sql = "INSERT INTO category(cat_title,cat_desc) VALUES (?,?)";
+  con.query(sql,[cat_title,cat_desc],(err,results)=>{
+    res.redirect('/admin/category');
+  });
+}
+
+exports.deleteCategory = (req,res)=>{
   const id = req.params.id;
   const sql = "DELETE FROM category WHERE cat_id = ?";
   con.query(sql,[id],(err,results)=>{
@@ -158,6 +194,22 @@ exports.deleteMenu = (req,res)=>{
     res.redirect('/admin/category');
   });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Customer Side
 //Cart Update the getCart function to fetch cart items from the database
