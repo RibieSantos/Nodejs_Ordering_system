@@ -8,17 +8,87 @@
     <title>Orders</title>
     <style>
       body {
-        margin-top: 80px;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .cart-container {
+        max-width: 800px;
+        margin: 80px auto 0;
+      }
+      .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      .cart-table th,
+      .cart-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+      .product-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+      .update-button,
+      .delete-button,
+      .checkout-button {
+        background-color: #3498db;
+        color: #fff;
+        padding: 8px 16px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        margin-right: 5px;
+      }
+      .total-section {
+        text-align: right;
+        margin-top: 20px;
       }
     </style>
+
   </head>
   <body>
     <%- include('../partials/nav') %>
-
+    <div class="cart-container">
     <center>
       <h1>Orders</h1>
     </center>
-
+    <!-- Add the following code to display the orders -->
+<table class="cart-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Image</th>
+      <th>Title</th>
+      <th>Quantity</th>
+      <th>Total Amount</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Loop through the orders and display them -->
+    <% orders.forEach(order => { %>
+      <tr>
+        <td><%= order.ord_id %></td>
+        <td><img src="<%= order.menu_image %>" alt="Product Image" class="product-image" /></td>
+        <td><%= order.menu_title %></td>
+        <td><%= order.quantity %></td>
+        <td>$<%= order.total_amount %></td>
+        <td><%= order.status %></td>
+        <td>
+          <button class="delete-button">Delete</button>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+</div>
     <%- include('../partials/footer') %>
   </body>
 </html>
