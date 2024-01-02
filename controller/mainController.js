@@ -87,43 +87,49 @@ exports.addMenu = (req, res) => {
     }
   );
 };
-// Update Menu
-exports.getEditMenu = (req,res)=>{
-  const id = req.params.id;
-  const sql = "SELECT * FROM menu JOIN category ON menu.cat_id = category.cat_id WHERE menu_id = ?";
-  const catsql = 'SELECT * FROM category';
-  con.query(sql,[id],(err,results)=>{
+
+//Select id to edit menu
+exports.getEditMenu = (req, res) => {
+  const menuId = req.params.id;
+  const sql = 'SELECT * FROM menu WHERE menu_id = ?';
+  con.query(sql, [menuId], (err, result) => {
     if (err) {
-      console.error('Error querying menu from database:', err);
+      console.error('Error querying menu:', err);
       return res.status(500).send('Internal Server Error');
     }
-    con.query(catsql, (err, categories) => {
-      if (err) {
-        console.error('Error fetching categories:', err);
+    const sqlCategories = 'SELECT * FROM category';
+    con.query(sqlCategories, (catErr, catResults) => {
+      if (catErr) {
+        console.error('Error querying categories:', catErr);
         return res.status(500).send('Internal Server Error');
       }
-
-      res.render('admin/menu/editMenu', { menu: results[0], categories });
+      res.render('admin/menu/editMenu', { menu: result[0], categories: catResults });
     });
-  
-  }); 
-}
-
-exports.updateMenu = (req, res) => {
-  const id = req.params.id;
-  const {menu_title,menu_desc,menu_price,menu_cat,menu_status} = req.body;
-  const sql = "UPDATE menu SET cat_id=?,menu_image=?,menu_title=?,menu_desc=?,menu_price=?,menu_status=? WHERE menu_id = ?";
-  
-  const menu_image = req.file ? req.file.filename : null;
-
-  con.query(sql,[menu_cat,menu_image,menu_title,menu_desc,menu_price,menu_status,id],(err,results)=>{
-    console.log(results);
-    console.log(results[0]);
-      req.flash('messages','Menu item successfully updated');
-      res.redirect('/admin/menu');
   });
-  
 };
+
+// Update Menu
+exports.updateMenu = (req, res) => {
+  const menuId = req.params.id;
+  const { menu_title, menu_desc, menu_price, menu_cat, menu_status } = req.body;
+  const menu_image = req.file ? req.file.filename : null;
+  const updateQuery = 'UPDATE menu SET menu_image = ?, menu_title = ?, menu_desc = ?, menu_price = ?, cat_id = ?, menu_status = ? WHERE menu_id = ?';
+  
+  con.query(
+    updateQuery,
+    [menu_image, menu_title, menu_desc, menu_price, menu_cat, menu_status, menuId],
+    (err) => {
+      if (err) {
+        console.error('Error updating menu:', err);
+        return res.status(500).send('Internal Server Error');
+      }
+      req.flash('messages', 'Menu updated successfully.');
+      res.redirect('/admin/menu');
+    }
+  );
+};
+
+
 
 //Delete Menu
 exports.deleteMenu = (req,res)=>{
@@ -206,19 +212,6 @@ exports.statusUpdate = (req, res) => {
     }
   });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //Customer Side
 //Customer Dashboard
