@@ -111,8 +111,14 @@ exports.getEditMenu = (req, res) => {
 // Update Menu
 exports.updateMenu = (req, res) => {
   const menuId = req.params.id;
-  const { menu_title, menu_desc, menu_price, menu_cat, menu_status } = req.body;
-  const menu_image = req.file ? req.file.filename : null;
+  const { previous_image,menu_title, menu_desc, menu_price, menu_cat, menu_status } = req.body;
+let menu_image;
+
+  if (req.file) {
+    menu_image = req.file.filename;
+  } else {
+    menu_image = req.body.previous_image;
+  }  
   const updateQuery = 'UPDATE menu SET menu_image = ?, menu_title = ?, menu_desc = ?, menu_price = ?, cat_id = ?, menu_status = ? WHERE menu_id = ?';
   
   con.query(
