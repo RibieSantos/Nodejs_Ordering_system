@@ -3,19 +3,8 @@ const multer = require("multer");
 exports.getIndex = (req,res)=>{
     res.render("index");
 }
-//Customer Dashboard
-exports.getHome = (req, res) => {
-  const sql = "SELECT menu.menu_id, menu.menu_title, menu.menu_desc, menu.menu_price, menu.menu_status, menu.menu_image, category.cat_title FROM menu JOIN category ON menu.cat_id = category.cat_id";
-  con.query(sql, [], (err, results) => {
-    if (err) {
-      console.error('Error querying menu table:', err);
-      return res.status(500).send('Internal Server Error');
-    }
-    res.render("customer/dashboard", { menu: results });
-  });
-};
 
-// Corrected Node.js code
+
 exports.getDash = (req, res) => {
   const menuQuery = "SELECT COUNT(*) AS menu_count FROM menu";
   const ordersQuery = "SELECT COUNT(*) FROM orders";
@@ -98,7 +87,7 @@ exports.addMenu = (req, res) => {
     }
   );
 };
-
+// Update Menu
 exports.getEditMenu = (req,res)=>{
   const id = req.params.id;
   const sql = "SELECT * FROM menu JOIN category ON menu.cat_id = category.cat_id WHERE menu_id = ?";
@@ -124,10 +113,7 @@ exports.updateMenu = (req, res) => {
   const id = req.params.id;
   const {menu_title,menu_desc,menu_price,menu_cat,menu_status} = req.body;
   const sql = "UPDATE menu SET cat_id=?,menu_image=?,menu_title=?,menu_desc=?,menu_price=?,menu_status=? WHERE menu_id = ?";
-  // const id = req.params.id; // Assuming your route is '/update-menu/:id'
-  // const { menu_title, menu_desc, menu_price, menu_cat, menu_status } = req.body;
-
-  // // Handle file upload (assuming you are using multer for handling file uploads)
+  
   const menu_image = req.file ? req.file.filename : null;
 
   con.query(sql,[menu_cat,menu_image,menu_title,menu_desc,menu_price,menu_status,id],(err,results)=>{
@@ -190,8 +176,36 @@ exports.deleteCategory = (req,res)=>{
   });
 }
 
+// Orders
+exports.getAdminOrders = (req, res) => {
+  const sql =
+    "SELECT u.fullname, u.address, u.contact, m.menu_title, m.menu_price,o.ord_id, o.quantity, o.total_amount, o.order_status FROM menu AS m JOIN orders AS o ON m.menu_id = o.menu_id JOIN users AS u ON u.id = o.user_id";
+  con.query(sql, [], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.render("admin/orders/order", { orders: results });
+    }
+  });
+};
 
-
+exports.statusUpdate = (req, res) => {
+  const order_status = req.body.order_status;
+  const id = req.params.id;
+  const sql = "UPDATE orders SET order_status = ? WHERE ord_id = ?";
+  
+  con.query(sql, [order_status, id], (err, results) => {
+    if (err) {
+      // Handle error appropriately
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      req.flash('messages','Orders status are successfully updated');
+      res.redirect('/admin/order');
+    }
+  });
+};
 
 
 
@@ -207,6 +221,17 @@ exports.deleteCategory = (req,res)=>{
 
 
 //Customer Side
+//Customer Dashboard
+exports.getHome = (req, res) => {
+  const sql = "SELECT menu.menu_id, menu.menu_title, menu.menu_desc, menu.menu_price, menu.menu_status, menu.menu_image, category.cat_title FROM menu JOIN category ON menu.cat_id = category.cat_id";
+  con.query(sql, [], (err, results) => {
+    if (err) {
+      console.error('Error querying menu table:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.render("customer/dashboard", { menu: results });
+  });
+};
 //Cart Update the getCart function to fetch cart items from the database
 exports.getCart = (req, res) => {
   const userId = req.session.user.user_id;

@@ -40,6 +40,14 @@ router.get('/admin/addCategory',mainCon.isAuthenticated,mainCon.getAddCategory);
 router.post('/admin/addCategory/add',mainCon.isAuthenticated,mainCon.addCategory);
 router.post('/admin/category/delete/:id',mainCon.isAuthenticated,mainCon.deleteCategory);
 
+// Orders
+router.get('/admin/order',mainCon.isAuthenticated,mainCon.getAdminOrders);
+router.post('/admin/updateStatus/:id',mainCon.isAuthenticated,mainCon.statusUpdate);
+
+// Report Generation
+
+
+
 
 //Customer Side
 // Update the route to call the getCart function

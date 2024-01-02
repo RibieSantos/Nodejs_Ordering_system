@@ -1,68 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <%- include('../partials/header') %>
-    <title>Admin - Menu</title>
-  </head>
-  <body>
+        <title>Admin - Orders</title>
+</head>
+
+<body>
     <%- include('../partials/nav') %>
 
-    <main class="mt-5 pt-3">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-            <h4>Menu</h4>
-          </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div
-                    class="table-responsive"
-                >
-                    <table
-                        class="table data-table"
-                    >
-                        <thead>
-                            <tr>
-                                <th scope="col">Menu Image</th>
-                                <th scope="col">Menu Title</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="">
-                                <td scope="row">R1C1</td>
-                                <td>R1C2</td>
-                                <td>R1C3</td>
-                                <td>R1C3</td>
-                                <td>R1C3</td>
-                                <td>
-                                    <div class="d-flex">
-                                        <form action="" method="post">
-                                            <button type="submit" class="btn btn-danger mx-1"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                        </form>
-                                        <a href="" class="btn btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                    </div>
-                                    
-                                </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
+        <main class="mt-5 pt-3">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Menu</h4>
+                    </div>
                 </div>
-                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table data-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">FullNname</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Contact</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Total Amount</th>
+                                        <th scope="col">Order Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% orders.forEach(order=> { %>
+                                        <tr>
+                                            <td>
+                                                <%= order.fullname %>
+                                            </td>
+                                            <td>
+                                                <%= order.address %>
+                                            </td>
+                                            <td>
+                                                <%= order.contact %>
+                                            </td>
+                                            <td>
+                                                <%= order.menu_title %>
+                                            </td>
+                                            <td>
+                                                <%= order.menu_price %>
+                                            </td>
+                                            <td>
+                                                <%= order.quantity %>
+                                            </td>
+                                            <td>
+                                                <%= order.total_amount %>
+                                            </td>
+                                            <td>
+                                                <% if (order.order_status=='pending' ) { %>
+                                                    <a href="/admin/updateStatus/<%= order.ord_id %>"
+                                                        class="btn btn-secondary fw-bold" data-bs-toggle="modal"
+                                                        data-bs-target="#modalId<%= order.ord_id %>">
+                                                        <%= order.order_status %>
+                                                    </a>
+                                                    <% } else if (order.order_status=='Confirm' ) { %>
+                                                        <a href="/admin/updateStatus/<%= order.ord_id %>"
+                                                            class="btn btn-info fw-bold" data-bs-toggle="modal"
+                                                            data-bs-target="#modalId<%= order.ord_id %>">
+                                                            <%= order.order_status %>
+                                                        </a>
+                                                        <% } else if (order.order_status=='To process' ) { %>
+                                                            <a href="/admin/updateStatus/<%= order.ord_id %>"
+                                                                class="btn btn-warning fw-bold" data-bs-toggle="modal"
+                                                                data-bs-target="#modalId<%= order.ord_id %>">
+                                                                <%= order.order_status %>
+                                                            </a>
+                                                            <% } else if (order.order_status=='To be Delivered' ) { %>
+                                                                <a href="/admin/updateStatus/<%= order.ord_id %>"
+                                                                    class="btn btn-primary fw-bold" data-bs-toggle="modal"
+                                                                    data-bs-target="#modalId<%= order.ord_id %>">
+                                                                    <%= order.order_status %>
+                                                                </a>
+                                                                <% } else if (order.order_status=='Paid' ) { %>
+                                                                    <a href="/admin/updateStatus/<%= order.ord_id %>"
+                                                                        class="btn btn-success fw-bold" data-bs-toggle="modal"
+                                                                        data-bs-target="#modalId<%= order.ord_id %>">
+                                                                        <%= order.order_status %>
+                                                                    </a>
+                                                                    <% } %>
+
+                                                                        <!-- Modal Body-->
+
+                                                                        <div class="modal fade"
+                                                                            id="modalId<%= order.ord_id %>"
+                                                                            tabindex="-1" role="dialog"
+                                                                            aria-labelledby="modalTitleId"
+                                                                            aria-hidden="true">
+                                                                            <div class="modal-dialog" role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title"
+                                                                                            id="modalTitleId">Update
+                                                                                            Status</h5>
+                                                                                        <button type="button"
+                                                                                            class="btn-close"
+                                                                                            aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <div class="container">
+                                                                                            <form
+                                                                                                action="/admin/updateStatus/<%= order.ord_id %>"
+                                                                                                method="post">
+
+
+                                                                                                <div class="mb-3">
+                                                                                                    <select
+                                                                                                        class="form-select"
+                                                                                                        name="order_status">
+                                                                                                        <option
+                                                                                                            value="<%= order.order_status %>">
+                                                                                                            <%= order.order_status
+                                                                                                                %>
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="Pending">
+                                                                                                            Pending
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="Confirm">
+                                                                                                            Confirm
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="To process">
+                                                                                                            To Process
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="To be Delivered">
+                                                                                                            To be
+                                                                                                            Delivered
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="Paid">
+                                                                                                            Paid
+                                                                                                        </option>
+                                                                                                    </select>
+                                                                                                    <input type="submit"
+                                                                                                        class="btn btn-outline-primary mt-2 w-100"
+                                                                                                        value="Update Status">
+                                                                                                </div>
+                                                                                            </form>
+
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-        </div>
-      </div>
-    </main>
-    
+        </main>
+
         <%- include('../partials/footer') %>
 
-  </body>
+</body>
+
 </html>
