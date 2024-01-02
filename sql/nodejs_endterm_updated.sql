@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 27, 2023 at 06:38 AM
+-- Generation Time: Jan 02, 2024 at 02:57 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -52,7 +52,9 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`cat_id`, `cat_title`, `cat_desc`) VALUES
-(1, 'asd', 'asd');
+(1, 'asd', 'asd'),
+(4, 'Sizzlers', 'zxcvxczxC'),
+(5, 'xczxczx', 'cvbfsfdncfn');
 
 -- --------------------------------------------------------
 
@@ -70,6 +72,13 @@ CREATE TABLE `menu` (
   `menu_status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `menu`
+--
+
+INSERT INTO `menu` (`menu_id`, `cat_id`, `menu_image`, `menu_title`, `menu_desc`, `menu_price`, `menu_status`) VALUES
+(29, 1, '1703786755336-peach.jpg', 'asdasd', 'asdasd', 12.00, 'Available');
+
 -- --------------------------------------------------------
 
 --
@@ -85,6 +94,13 @@ CREATE TABLE `orderdetails` (
   `order_date` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orderdetails`
+--
+
+INSERT INTO `orderdetails` (`id`, `user_id`, `menu_id`, `quantity`, `total_amount`, `order_date`) VALUES
+(1, 1, 1, 1, 200, '12');
+
 -- --------------------------------------------------------
 
 --
@@ -96,9 +112,17 @@ CREATE TABLE `orders` (
   `user_id` int(11) NOT NULL,
   `menu_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `total_amount` float NOT NULL,
+  `total_amount` decimal(8,2) NOT NULL,
+  `order_status` varchar(30) NOT NULL,
   `ord_date` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`ord_id`, `user_id`, `menu_id`, `quantity`, `total_amount`, `order_status`, `ord_date`) VALUES
+(1, 5, 29, 1, 200.00, 'Paid', '12');
 
 -- --------------------------------------------------------
 
@@ -111,6 +135,8 @@ CREATE TABLE `users` (
   `fullname` varchar(100) NOT NULL,
   `gender` varchar(10) NOT NULL,
   `birthdate` varchar(20) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `contact` varchar(15) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `user_type` varchar(10) NOT NULL
@@ -120,9 +146,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `gender`, `birthdate`, `email`, `password`, `user_type`) VALUES
-(1, 'Admin Administrator', 'Male', '03-14-2002', 'admin@gmail.com', '$2b$10$d1TPuNUTefWBsh0V9nH/v.PEctAGTv9/U9X7iPrn7m3uokoqGYjfG', 'admin'),
-(5, 'ribie santos', 'Male', '12-43-2332', 'c@g.c', '$2b$10$d1TPuNUTefWBsh0V9nH/v.PEctAGTv9/U9X7iPrn7m3uokoqGYjfG', 'customer');
+INSERT INTO `users` (`id`, `fullname`, `gender`, `birthdate`, `address`, `contact`, `email`, `password`, `user_type`) VALUES
+(1, 'Admin Administrator', 'Male', '03-14-2002', 'asdxczcasdasd', '0987654321', 'admin@gmail.com', '$2b$10$d1TPuNUTefWBsh0V9nH/v.PEctAGTv9/U9X7iPrn7m3uokoqGYjfG', 'admin'),
+(5, 'ribie santos', 'Male', '12-43-2332', 'asdawsdfasdasdasd', '09123456789', 'c@g.c', '$2b$10$d1TPuNUTefWBsh0V9nH/v.PEctAGTv9/U9X7iPrn7m3uokoqGYjfG', 'customer');
 
 --
 -- Indexes for dumped tables
@@ -178,25 +204,25 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `orderdetails`
 --
 ALTER TABLE `orderdetails`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `ord_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ord_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
