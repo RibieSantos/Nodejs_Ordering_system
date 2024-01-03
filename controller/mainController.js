@@ -111,14 +111,8 @@ exports.getEditMenu = (req, res) => {
 // Update Menu
 exports.updateMenu = (req, res) => {
   const menuId = req.params.id;
-  const { previous_image,menu_title, menu_desc, menu_price, menu_cat, menu_status } = req.body;
-let menu_image;
-
-  if (req.file) {
-    menu_image = req.file.filename;
-  } else {
-    menu_image = req.body.previous_image;
-  }  
+  const { menu_title, menu_desc, menu_price, menu_cat, menu_status } = req.body;
+  const menu_image = req.file ? req.file.filename : null;
   const updateQuery = 'UPDATE menu SET menu_image = ?, menu_title = ?, menu_desc = ?, menu_price = ?, cat_id = ?, menu_status = ? WHERE menu_id = ?';
   
   con.query(
@@ -233,16 +227,20 @@ exports.getHome = (req, res) => {
 };
 //Cart Update the getCart function to fetch cart items from the database
 exports.getCart = (req, res) => {
-  const userId = req.session.user.user_id;
-  const sql = 'SELECT cart.menu_id, menu.menu_image, menu.menu_title, menu.menu_price, cart.quantity, cart.total_price FROM cart JOIN menu ON cart.menu_id = menu.menu_id WHERE cart.user_id = ?';
-  con.query(sql, [userId], (err, results) => {
+  const id = req.session.user.id; // Assuming you have user session data
+
+  const sql = 'SELECT cart_id, menu_image, menu_title, menu_price, quantity, total_price FROM cart WHERE id = ?';
+  
+  con.query(sql, [id], (err, results) => {
     if (err) {
       console.error('Error querying cart items:', err);
       return res.status(500).send('Internal Server Error');
     }
+    
     res.render('customer/cart/cart', { cart: results });
   });
 };
+
 exports.getOrders = (req, res) => {
   const userId = req.session.user.user_id;
   const sql = `
@@ -264,6 +262,7 @@ exports.getOrders = (req, res) => {
 exports.getOrderHistory = (req,res)=>{
   res.render('customer/order_history/order_history'); 
 }
+
 exports.getMenuForCustomer = (req, res) => {
   const sql = "SELECT menu_id, menu_title, menu_desc, menu_price, menu_image FROM menu";
   con.query(sql, [], (err, results) => {
@@ -276,17 +275,44 @@ exports.getMenuForCustomer = (req, res) => {
 };
 // Add the following function to handle adding items to the cart
 exports.addToCart = (req, res) => {
-  const { menu_id, menu_image, menu_title, menu_price, quantity } = req.body;
-  const total_price = menu_price * quantity;
-  const sql = 'INSERT INTO cart (menu_id, user_id, quantity, total_price) VALUES (?, ?, ?, ?)';
-  con.query(sql, [menu_id, req.session.user.user_id, quantity, total_price], (err) => {
-    if (err) {
-      console.error('Error adding item to cart:', err);
-      return res.status(500).send('Internal Server Error');
+  const { menu_image, menu_title, menu_price, quantity } = req.body;
+  const id = req.session.user.id;
+  const parsedQuantity = parseInt(quantity); // Convert quantity to a number
+  const parsedPrice = parseFloat(menu_price); // Convert price to a float
+
+  if (isNaN(parsedQuantity) || parsedQuantity <= 0 || isNaN(parsedPrice) || parsedPrice <= 0) {
+    return res.status(400).json({ message: 'Invalid quantity or price value' });
+  }
+
+  const total_price = parsedPrice * parsedQuantity;
+
+  // Retrieve menu_id from the 'menu' table based on menu_title (for example)
+  const selectQuery = 'SELECT menu_id FROM menu WHERE menu_title = ? LIMIT 1';
+  con.query(selectQuery, [menu_title], (selectErr, selectResult) => {
+    if (selectErr) {
+      console.error('Error fetching menu_id:', selectErr);
+      return res.status(500).json({ message: 'Error adding item to cart' });
     }
-    res.redirect('/customer/cart');
+
+    if (selectResult.length === 0) {
+      return res.status(404).json({ message: 'Menu item not found' });
+    }
+
+    const menuId = selectResult[0].menu_id;
+
+    const insertQuery = 'INSERT INTO cart (menu_image, menu_title, menu_price, menu_id, id, quantity, total_price) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    con.query(insertQuery, [menu_image, menu_title, parsedPrice, menuId, id, parsedQuantity, total_price], (insertErr, insertResult) => {
+      if (insertErr) {
+        console.error('Error adding item to cart:', insertErr);
+        return res.status(500).json({ message: 'Error adding item to cart' });
+      }
+      return res.status(200).json({ message: 'Item added to cart successfully' });
+    });
   });
 };
+
+
+
 
 //Checkout Button
 exports.checkout = (req, res) => {

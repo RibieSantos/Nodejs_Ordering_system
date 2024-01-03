@@ -10,10 +10,16 @@
   }
   .product-card {
     width: 300px;
+    height: 250px;
     border: 1px solid #ddd;
     margin: 20px;
     padding: 10px;
     text-align: center;
+  }
+  .product-card img {
+    height: 90px;
+    object-fit: cover;
+    width: 100%;
   }
   .product-image {
     width: 100%;
