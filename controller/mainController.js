@@ -353,3 +353,21 @@ exports.logout = (req, res) => {
     res.redirect('/');
   });
 };
+
+//customer history
+exports.getOrderHistory = (req, res) => {
+  const userId = req.session.user.user_id;
+  const sql = `
+    SELECT orders.ord_id, orders.menu_id, orders.quantity, orders.total_amount, orders.ord_date, menu.menu_title, menu.menu_image 
+    FROM orders 
+    JOIN menu ON orders.menu_id = menu.menu_id 
+    WHERE orders.user_id = ?`;
+
+  con.query(sql, [userId], (err, orderHistory) => {
+    if (err) {
+      console.error('Error querying order history:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.render('customer/order_history/order_history', { orderHistory });
+  });
+};
