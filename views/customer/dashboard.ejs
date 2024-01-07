@@ -28,7 +28,7 @@
             <img class="card-img-top" src="<%= product.menu_image %>" />
             <div class="card-body">
               <h5 class="card-title"><%= product.menu_title %></h5>
-              <p class="card-text">$<%= product.menu_price %></p>
+              <p class="card-text">Php <%= product.menu_price %></p>
               <button class="btn btn-primary addToCartBtn" 
               data-image="<%= product.menu_image %>" 
               data-title="<%= product.menu_title %>" 
@@ -41,7 +41,6 @@
         <% }); %>
       </div>
     </div>
-
     <!-- Modal to Add to Cart to -->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -66,35 +65,29 @@
         </div>
       </div>
     </div>
-
     <%- include('./partials/footer') %>
-    
     <script>
     // Handle Add to Cart functionality when clicking product cards
 $('.addToCartBtn').on('click', function () {
   const image = $(this).data('image');
   const title = $(this).data('title');
   const price = $(this).data('price');
-
   // Populate modal with selected product details
   $('#modalProductImage').attr('src', image);
   $('#modalProductTitle').text(title);
   $('#modalProductPrice').text('Price: $' + price);
   $('#quantityInput').val('1');
-
   // Store product details for adding to cart
   $('#addToCartBtn').data('image', image);
   $('#addToCartBtn').data('title', title);
   $('#addToCartBtn').data('price', price);
 });
-
 // Handle Add to Cart button inside the modal
 function addToCart() {
   const image = $('#modalProductImage').attr('src');
   const title = $('#modalProductTitle').text();
   const price = $('#modalProductPrice').text().replace('Price: $', ''); // Ensure the price is correctly extracted
   const quantity = $('#quantityInput').val(); // Get selected quantity
-
   // AJAX request to add item to cart
   $.post('/addToCart', {
     menu_image: image,
@@ -110,10 +103,6 @@ function addToCart() {
     alert('Error adding to cart: ' + error.responseJSON.message); // Show error message
   });
 }
-
-
     </script>
-    
-
   </body>
 </html>

@@ -3,8 +3,6 @@ const multer = require("multer");
 exports.getIndex = (req,res)=>{
     res.render("index");
 }
-
-
 exports.getDash = (req, res) => {
   const menuQuery = "SELECT COUNT(*) AS menu_count FROM menu";
   const ordersQuery = "SELECT COUNT(*) FROM orders";
@@ -30,8 +28,6 @@ exports.getDash = (req, res) => {
     });
   });
 };
-
-
 exports.isAuthenticated = (req, res, next) => {
     if (req.session.user) {
       next();
@@ -40,7 +36,6 @@ exports.isAuthenticated = (req, res, next) => {
       res.redirect('/showLogin');
     }
   };
-
 //Admin Side
 // Menu Controller
 exports.getMenu = (req,res)=>{
@@ -87,7 +82,6 @@ exports.addMenu = (req, res) => {
     }
   );
 };
-
 //Select id to edit menu
 exports.getEditMenu = (req, res) => {
   const menuId = req.params.id;
@@ -107,7 +101,6 @@ exports.getEditMenu = (req, res) => {
     });
   });
 };
-
 // Update Menu
 exports.updateMenu = (req, res) => {
   const menuId = req.params.id;
@@ -128,9 +121,6 @@ exports.updateMenu = (req, res) => {
     }
   );
 };
-
-
-
 //Delete Menu
 exports.deleteMenu = (req,res)=>{
   const id = req.params.id;
@@ -142,9 +132,6 @@ exports.deleteMenu = (req,res)=>{
     res.redirect('/admin/menu');
   });
 }
-
-
-
 //Category Controller
 exports.getCategory = (req,res)=>{
   const sql = "SELECT * FROM category";
@@ -162,7 +149,6 @@ exports.getAddCategory = (req,res)=>{
 
   });
 }
-
 exports.addCategory = (req,res)=>{
   const {cat_title,cat_desc} = req.body;
   const sql = "INSERT INTO category(cat_title,cat_desc) VALUES (?,?)";
@@ -170,7 +156,6 @@ exports.addCategory = (req,res)=>{
     res.redirect('/admin/category');
   });
 }
-
 exports.deleteCategory = (req,res)=>{
   const id = req.params.id;
   const sql = "DELETE FROM category WHERE cat_id = ?";
@@ -181,7 +166,6 @@ exports.deleteCategory = (req,res)=>{
     res.redirect('/admin/category');
   });
 }
-
 // Orders
 exports.getAdminOrders = (req, res) => {
   const sql =
@@ -195,12 +179,10 @@ exports.getAdminOrders = (req, res) => {
     }
   });
 };
-
 exports.statusUpdate = (req, res) => {
   const order_status = req.body.order_status;
   const id = req.params.id;
   const sql = "UPDATE orders SET order_status = ? WHERE ord_id = ?";
-  
   con.query(sql, [order_status, id], (err, results) => {
     if (err) {
       // Handle error appropriately
@@ -228,19 +210,15 @@ exports.getHome = (req, res) => {
 //Cart Update the getCart function to fetch cart items from the database
 exports.getCart = (req, res) => {
   const id = req.session.user.id; // Assuming you have user session data
-
   const sql = 'SELECT cart_id, menu_image, menu_title, menu_price, quantity, total_price FROM cart WHERE id = ?';
-  
   con.query(sql, [id], (err, results) => {
     if (err) {
       console.error('Error querying cart items:', err);
       return res.status(500).send('Internal Server Error');
     }
-    
     res.render('customer/cart/cart', { cart: results });
   });
 };
-
 exports.getOrders = (req, res) => {
   const userId = req.session.user.user_id;
   const sql = `
@@ -254,15 +232,14 @@ exports.getOrders = (req, res) => {
       console.error('Error querying orders:', err);
       return res.status(500).send('Internal Server Error');
     }
-    res.render('customer/orders/orders', { orders }); 
-  });
-}
 
+    res.render('customer/orders/orders', { orders });
+  });
+};
 
 exports.getOrderHistory = (req,res)=>{
   res.render('customer/order_history/order_history'); 
 }
-
 exports.getMenuForCustomer = (req, res) => {
   const sql = "SELECT menu_id, menu_title, menu_desc, menu_price, menu_image FROM menu";
   con.query(sql, [], (err, results) => {
@@ -279,13 +256,10 @@ exports.addToCart = (req, res) => {
   const id = req.session.user.id;
   const parsedQuantity = parseInt(quantity); // Convert quantity to a number
   const parsedPrice = parseFloat(menu_price); // Convert price to a float
-
   if (isNaN(parsedQuantity) || parsedQuantity <= 0 || isNaN(parsedPrice) || parsedPrice <= 0) {
     return res.status(400).json({ message: 'Invalid quantity or price value' });
   }
-
   const total_price = parsedPrice * parsedQuantity;
-
   // Retrieve menu_id from the 'menu' table based on menu_title (for example)
   const selectQuery = 'SELECT menu_id FROM menu WHERE menu_title = ? LIMIT 1';
   con.query(selectQuery, [menu_title], (selectErr, selectResult) => {
@@ -293,13 +267,10 @@ exports.addToCart = (req, res) => {
       console.error('Error fetching menu_id:', selectErr);
       return res.status(500).json({ message: 'Error adding item to cart' });
     }
-
     if (selectResult.length === 0) {
       return res.status(404).json({ message: 'Menu item not found' });
     }
-
     const menuId = selectResult[0].menu_id;
-
     const insertQuery = 'INSERT INTO cart (menu_image, menu_title, menu_price, menu_id, id, quantity, total_price) VALUES (?, ?, ?, ?, ?, ?, ?)';
     con.query(insertQuery, [menu_image, menu_title, parsedPrice, menuId, id, parsedQuantity, total_price], (insertErr, insertResult) => {
       if (insertErr) {
@@ -310,39 +281,44 @@ exports.addToCart = (req, res) => {
     });
   });
 };
-
-
-
-
-//Checkout Button
+// Checkout Button
 exports.checkout = (req, res) => {
   const userId = req.session.user.user_id;
-  const { cart } = req.body;
+  const { cart, status } = req.body;
 
-  const insertOrderSQL =
-    'INSERT INTO orders (user_id, menu_id, quantity, total_amount, ord_date) VALUES (?, ?, ?, ?, NOW())';
+  try {
+    cart = JSON.parse(req.body.cart);
+  } catch (err) {
+    console.error('Error parsing cart data:', err);
+    return res.status(400).send('Invalid cart data');
+  }
 
+  const insertOrderSQL = 'INSERT INTO orders (user_id, menu_id, quantity, total_amount, ord_date, status) VALUES (?, ?, ?, ?, NOW(), "Pending")';
   const deleteCartSQL = 'DELETE FROM cart WHERE user_id = ?';
 
   // Iterate through the items in the cart and insert them into the 'orders' table
   cart.forEach((item) => {
     const { menu_id, quantity, total_price } = item;
-    con.query(insertOrderSQL, [userId, menu_id, quantity, total_price], (err) => {
+    con.query(insertOrderSQL, [userId, menu_id, quantity, total_price, status], (err) => {
       if (err) {
-        console.error('Error inserting order into the database:', err);
+        console.error('Error inserting order:', err);
         return res.status(500).send('Internal Server Error');
       }
     });
   });
-  // Delete the items from the cart after checkout
+
+  // Delete the cart items
   con.query(deleteCartSQL, [userId], (err) => {
     if (err) {
-      console.error('Error deleting cart items from the database:', err);
+      console.error('Error deleting cart items:', err);
       return res.status(500).send('Internal Server Error');
     }
+
+    // Redirect to the orders page
     res.redirect('/customer/orders');
   });
 };
+
 
 //logout
 exports.logout = (req, res) => {
@@ -353,7 +329,6 @@ exports.logout = (req, res) => {
     res.redirect('/');
   });
 };
-
 //customer history
 exports.getOrderHistory = (req, res) => {
   const userId = req.session.user.user_id;
@@ -362,7 +337,6 @@ exports.getOrderHistory = (req, res) => {
     FROM orders 
     JOIN menu ON orders.menu_id = menu.menu_id 
     WHERE orders.user_id = ?`;
-
   con.query(sql, [userId], (err, orderHistory) => {
     if (err) {
       console.error('Error querying order history:', err);
