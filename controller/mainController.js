@@ -4,6 +4,10 @@ exports.getIndex = (req,res)=>{
     res.render("index");
 }
 
+<<<<<<< HEAD
+=======
+//Admin Side
+>>>>>>> a842a5b039a1a1841a0c81ca1e7324eae33b7cb6
 exports.getDash = (req, res) => {
   const menuQuery = "SELECT COUNT(*) AS menu_count FROM menu";
   const ordersQuery = "SELECT COUNT(*) FROM orders";
@@ -149,6 +153,8 @@ exports.getCategory = (req,res)=>{
 
   });
 }
+
+// Add Category
 exports.getAddCategory = (req,res)=>{
   const sql = "SELECT * FROM category";
   con.query(sql,[],(err,results)=>{
@@ -165,7 +171,11 @@ exports.addCategory = (req,res)=>{
     res.redirect('/admin/category');
   });
 }
+<<<<<<< HEAD
 
+=======
+// Delete Category
+>>>>>>> a842a5b039a1a1841a0c81ca1e7324eae33b7cb6
 exports.deleteCategory = (req,res)=>{
   const id = req.params.id;
   const sql = "DELETE FROM category WHERE cat_id = ?";
@@ -177,6 +187,40 @@ exports.deleteCategory = (req,res)=>{
   });
 }
 
+<<<<<<< HEAD
+=======
+// Edit Category
+exports.editCategory = (req,res)=>{
+  const cat_id = req.params.id;
+  const sql = 'SELECT * FROM category WHERE cat_id = ?';
+  con.query(sql,[cat_id],(err,results)=>{
+    if(err) throw err;
+    res.render('admin/category/editCategory',{cat:results});
+  })
+};
+
+exports.updateCategory = (req,res)=>{
+  const id = req.params.id;
+  const {cat_title,cat_desc} = req.body;
+  const sql = 'UPDATE category SET cat_title = ?, cat_desc = ? WHERE cat_id = ?';
+
+  con.query(sql,[cat_title,cat_desc,id],(err,results)=>{
+    req.flash('messages','Category item successfully updated.');
+    res.redirect('/admin/category');
+  })
+}
+
+// admin - Customer table
+exports.getCustomerTable = (req,res)=>{
+  const sql = "SELECT * FROM users WHERE user_type = ?";
+  con.query(sql,['customer'],(err,results)=>{
+    res.render('admin/customers/customers',{customers:results})
+
+  });
+}
+
+
+>>>>>>> a842a5b039a1a1841a0c81ca1e7324eae33b7cb6
 // Orders
 exports.getAdminOrders = (req, res) => {
   const sql =
