@@ -145,39 +145,42 @@
                 </div>
 
                 <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="200">
-                    @foreach ($cat as $cats)
+                    <% cat.forEach(cats => { %>
                         <li class="nav-item">
-                            <a class="nav-link show" data-bs-toggle="tab" data-bs-target="#{{ $cats->cat_title }}">
-                                <h4>{{ $cats->cat_title }}</h4>
+                            <a class="nav-link show" data-bs-toggle="tab" data-bs-target="#<%= cats.cat_title %>">
+                                <h4><%= cats.cat_title %></h4>
                             </a>
                         </li><!-- End tab nav item -->
-                    @endforeach
+                    <% }) %>
+                    
                 </ul>
 
                 <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
-                    @foreach ($cat as $cats)
-                        <div class="tab-pane fade show" id="{{ $cats->cat_title }}">
+                    <% cat.forEach(cats => { %>
+                       <div class="tab-pane fade show" id="<%= cats.cat_title %>">
                             <div class="tab-header text-center">
                                 <p>Menu</p>
-                                <h3>{{ $cats->cat_title }}</h3>
+                                <h3><%= cats.cat_title %></h3>
                             </div>
 
                             <div class="row gy-5">
-                                @foreach ($menu as $menus)
-                                    @if ($menus->menu_cat == $cats->id)
-                                        <div class="col-lg-4 menu-item">
-                                            <a href="{{ $menus->menu_image }}" class="glightbox"><img
-                                                    src="{{ $menus->menu_image }}" class="menu-img img-fluid"
-                                                    alt=""></a>
-                                            <h4>{{ $menus->menu_title }}</h4>
-                                            <p class="ingredients">{{ $menus->menu_description }}</p>
-                                            <p class="price">{{ $menus->menu_price }}</p>
-                                        </div><!-- Menu Item -->
-                                    @endif
-                                @endforeach
+                            <% menu.forEach(menus => { %>
+                             <% if (menus.cat_id == cats.cat_id) { %>
+                                <div class="col-lg-4 menu-item">
+                                    <a href="/foods/<%= menus.menu_image %>" class="glightbox"><img
+                                            src="/foods/<%= menus.menu_image %>" class="menu-img img-fluid"
+                                            alt=""></a>
+                                    <h4><%= menus.menu_title %></h4>
+                                    <p class="ingredients"><%= menus.menu_desc %></p>
+                                    <p class="price">P<%= menus.menu_price %></p>
+                                </div><!-- Menu Item -->
+                             <% } %>
+                            
+                                <% }) %>
                             </div><!-- End row -->
                         </div><!-- End Starter Menu Content -->
-                    @endforeach
+                    <% }) %>
+                    
                 </div>
             </div>
         </section><!-- End Menu Section -->

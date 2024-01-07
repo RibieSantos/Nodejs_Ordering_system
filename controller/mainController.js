@@ -1,10 +1,17 @@
 const con = require('../database/connection');
 const multer = require("multer");
 exports.getIndex = (req,res)=>{
-    res.render("index");
+  const menuQuery = "SELECT * FROM menu";
+  const catQuery = "SELECT * FROM category";
+  con.query(menuQuery,[],(menuErr,menuRes)=>{
+    con.query(catQuery,[],(catErr,catRes)=>{
+      res.render("index",{menu:menuRes,cat:catRes});
+
+    })
+  })
 }
 
-
+//Admin Side
 exports.getDash = (req, res) => {
   const menuQuery = "SELECT COUNT(*) AS menu_count FROM menu";
   const ordersQuery = "SELECT COUNT(*) FROM orders";
@@ -41,7 +48,6 @@ exports.isAuthenticated = (req, res, next) => {
     }
   };
 
-//Admin Side
 // Menu Controller
 exports.getMenu = (req,res)=>{
   const sql ="SELECT menu.menu_id,menu.menu_title, menu.menu_desc, menu.menu_price, menu.menu_status, menu.menu_image, category.cat_title FROM menu JOIN category ON menu.cat_id = category.cat_id";;
@@ -218,6 +224,18 @@ exports.statusUpdate = (req, res) => {
     }
   });
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Customer Side
 //Customer Dashboard

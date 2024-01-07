@@ -23,15 +23,13 @@
       <!-- Product Cards -->
       <% menu.forEach(product => { %>
         <div class="product-card" data-toggle="modal" data-target="#productModal" data-image="<%= product.menu_image %>" data-title="<%= product.menu_title %>" data-price="<%= product.menu_price %>">
-          <img class="product-image" src="<%= product.menu_image %>" alt="<%= product.menu_title %>" />
+          <img class="product-image" src="/foods/<%= product.menu_image %>" alt="<%= product.menu_title %>" />
           <div class="product-title"><%= product.menu_title %></div>
           <div class="product-price">$<%= product.menu_price %></div>
           <button class="add-to-cart-button" onclick="addToCart('<%= product.menu_id %>', '<%= product.menu_image %>', '<%= product.menu_title %>', '<%= product.menu_price %>')">Add to Cart</button>
         </div>
-      <% }); %>
-    </div>
 
-    <!-- Modal to Add to Cart to -->
+        <!-- Modal to Add to Cart to -->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -42,7 +40,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <img id="modalProductImage" class="product-image" src="" alt="Product Image" />
+            <img id="modalProductImage" class="product-image" src="/foods/<%= product.menu_image %>" alt="<%= product.menu_title %>" />
             <div id="modalProductTitle" class="product-title"></div>
             <div id="modalProductPrice" class="product-price"></div>
             <label for="quantityInput">Quantity:</label>
@@ -55,6 +53,10 @@
         </div>
       </div>
     </div>
+      <% }); %>
+    </div>
+
+    
 
     <%- include('./partials/footer') %>
     
