@@ -16,10 +16,11 @@
   <body>
     <%- include('./partials/nav') %>
 
-    <div class="cart-container">
+    <div class="cart-container container">
       <center>
         <h1>Menu</h1>
       </center>
+<<<<<<< HEAD
       <!-- Product Cards -->
       <% menu.forEach(product => { %>
         <div class="product-card" data-toggle="modal" data-target="#productModal" data-image="<%= product.menu_image %>" data-title="<%= product.menu_title %>" data-price="<%= product.menu_price %>">
@@ -30,6 +31,30 @@
         </div>
 
         <!-- Modal to Add to Cart to -->
+=======
+      <div class="row">
+        <!-- Product Cards -->
+        <% menu.forEach(product => { %>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="product-card card" data-toggle="modal" data-target="#productModal" data-image="<%= product.menu_image %>" data-title="<%= product.menu_title %>" data-price="<%= product.menu_price %>">
+            <img class="card-img-top" src="<%= product.menu_image %>" />
+            <div class="card-body">
+              <h5 class="card-title"><%= product.menu_title %></h5>
+              <p class="card-text">Php <%= product.menu_price %></p>
+              <button class="btn btn-primary addToCartBtn" 
+              data-image="<%= product.menu_image %>" 
+              data-title="<%= product.menu_title %>" 
+              data-price="<%= product.menu_price %>">
+              Add to Cart
+            </button>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+    <!-- Modal to Add to Cart to -->
+>>>>>>> aeb233e14e1978fb968e8b06ecbd9165e0511b18
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -53,29 +78,52 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
       <% }); %>
     </div>
 
     
 
+=======
+>>>>>>> aeb233e14e1978fb968e8b06ecbd9165e0511b18
     <%- include('./partials/footer') %>
-    
-     <script>
-      function addToCart(image, title, price) {
-        alert(`Added ${title} to Cart!`);
-        $('#productModal').modal('hide');
-      }
-      $('.product-card').on('click', function () {
-        const image = $(this).data('image');
-        const title = $(this).data('title');
-        const price = $(this).data('price');
-        
-        $('#modalProductImage').attr('src', image);
-        $('#modalProductTitle').text(title);
-        $('#modalProductPrice').text('Price: $' + price);
-        $('#quantityInput').val('1');
-      });
+    <script>
+    // Handle Add to Cart functionality when clicking product cards
+$('.addToCartBtn').on('click', function () {
+  const image = $(this).data('image');
+  const title = $(this).data('title');
+  const price = $(this).data('price');
+  // Populate modal with selected product details
+  $('#modalProductImage').attr('src', image);
+  $('#modalProductTitle').text(title);
+  $('#modalProductPrice').text('Price: $' + price);
+  $('#quantityInput').val('1');
+  // Store product details for adding to cart
+  $('#addToCartBtn').data('image', image);
+  $('#addToCartBtn').data('title', title);
+  $('#addToCartBtn').data('price', price);
+});
+// Handle Add to Cart button inside the modal
+function addToCart() {
+  const image = $('#modalProductImage').attr('src');
+  const title = $('#modalProductTitle').text();
+  const price = $('#modalProductPrice').text().replace('Price: $', ''); // Ensure the price is correctly extracted
+  const quantity = $('#quantityInput').val(); // Get selected quantity
+  // AJAX request to add item to cart
+  $.post('/addToCart', {
+    menu_image: image,
+    menu_title: title,
+    menu_price: price,
+    quantity: quantity
+  })
+  .done(function (response) {
+    alert(response.message); // Show success message or handle response
+    $('#productModal').modal('hide'); // Hide modal after adding to cart
+  })
+  .fail(function (error) {
+    alert('Error adding to cart: ' + error.responseJSON.message); // Show error message
+  });
+}
     </script>
-
   </body>
 </html>
