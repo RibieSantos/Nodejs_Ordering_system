@@ -35,6 +35,9 @@ router.post('/admin/addCategory/add',mainCon.isAuthenticated,mainCon.addCategory
 router.get('/admin/editCategory/:id',mainCon.isAuthenticated,mainCon.editCategory);
 router.post('/admin/updateCategory/:id',mainCon.isAuthenticated,mainCon.updateCategory);
 router.post('/admin/category/delete/:id',mainCon.isAuthenticated,mainCon.deleteCategory);
+// Admin - customers
+router.get('/admin/customer',mainCon.isAuthenticated,mainCon.getCustomerTable);
+
 // Orders
 router.get('/admin/order',mainCon.isAuthenticated,mainCon.getAdminOrders);
 router.post('/admin/updateStatus/:id',mainCon.isAuthenticated,mainCon.statusUpdate);

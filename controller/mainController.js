@@ -187,7 +187,6 @@ exports.editCategory = (req,res)=>{
   const sql = 'SELECT * FROM category WHERE cat_id = ?';
   con.query(sql,[cat_id],(err,results)=>{
     if(err) throw err;
-    console.log(results);
     res.render('admin/category/editCategory',{cat:results});
   })
 };
@@ -201,6 +200,15 @@ exports.updateCategory = (req,res)=>{
     req.flash('messages','Category item successfully updated.');
     res.redirect('/admin/category');
   })
+}
+
+// admin - Customer table
+exports.getCustomerTable = (req,res)=>{
+  const sql = "SELECT * FROM users WHERE user_type = ?";
+  con.query(sql,['customer'],(err,results)=>{
+    res.render('admin/customers/customers',{customers:results})
+
+  });
 }
 
 

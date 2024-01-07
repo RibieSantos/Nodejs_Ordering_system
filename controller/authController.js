@@ -46,13 +46,13 @@ exports.login = (req,res)=>{
 }
 
 exports.register = (req,res) => {
-    const {fullname,gender,birthdate,email,password,user_type} = req.body; 
-    sql = "INSERT INTO users(fullname,gender,birthdate,email,password,user_type) VALUES(?,?,?,?,?,?)";
+    const {fullname,gender,birthdate,email,contact,address,password,user_type} = req.body; 
+    sql = "INSERT INTO users(fullname,gender,birthdate,contact,address,email,password,user_type) VALUES(?,?,?,?,?,?,?,?)";
 
     bcrypt.hash(password,saltRounds,(err,hash)=>{
         if (err) throw err;
 
-        conn.query(sql,[fullname,gender,birthdate,email,hash,"customer"],(err,results)=>{
+        conn.query(sql,[fullname,gender,birthdate,contact,address,email,hash,"customer"],(err,results)=>{
             if(err) throw err;
     
             req.flash('message', 'Registration successful. Please log in.');
