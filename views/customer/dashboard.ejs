@@ -20,6 +20,22 @@
       <center>
         <h1>Menu</h1>
       </center>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+      <!-- Product Cards -->
+      <% menu.forEach(product => { %>
+        <div class="product-card" data-toggle="modal" data-target="#productModal" data-image="<%= product.menu_image %>" data-title="<%= product.menu_title %>" data-price="<%= product.menu_price %>">
+          <img class="product-image" src="/foods/<%= product.menu_image %>" alt="<%= product.menu_title %>" />
+          <div class="product-title"><%= product.menu_title %></div>
+          <div class="product-price">$<%= product.menu_price %></div>
+          <button class="add-to-cart-button" onclick="addToCart('<%= product.menu_id %>', '<%= product.menu_image %>', '<%= product.menu_title %>', '<%= product.menu_price %>')">Add to Cart</button>
+        </div>
+
+        <!-- Modal to Add to Cart to -->
+>>>>>>> a842a5b039a1a1841a0c81ca1e7324eae33b7cb6
+>>>>>>> 8343f8cf2a57410816c177bf41f77f3f4dc2b63f
       <div class="row">
         <!-- Product Cards -->
         <% menu.forEach(product => { %>
@@ -66,7 +82,18 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
 
+=======
+      <% }); %>
+    </div>
+
+    
+>>>>>>> 8343f8cf2a57410816c177bf41f77f3f4dc2b63f
+
+>>>>>>> a842a5b039a1a1841a0c81ca1e7324eae33b7cb6
     <%- include('./partials/footer') %>
     
     <script>

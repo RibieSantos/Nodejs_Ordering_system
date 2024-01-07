@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <%- include('../partials/header') %>
   <title>Cart</title>
+  
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -53,6 +54,7 @@
 </head>
 <body>
   <%- include('../partials/nav') %>
+<<<<<<< HEAD
   <div class="cart-container container">
     <center>
       <h1>Cart</h1>
@@ -63,6 +65,15 @@
       <table
         class="table data-table"
       >
+=======
+
+  <div class="cart-container">
+    <center>
+      <h1>Cart</h1>
+    </center>
+
+    <table class="cart-table">
+>>>>>>> 8343f8cf2a57410816c177bf41f77f3f4dc2b63f
       <thead>
         <tr>
           <th>Image</th>
@@ -73,6 +84,7 @@
           <th>Action</th>
         </tr>
       </thead>
+<<<<<<< HEAD
       <tbody>
         <% cart.forEach(item => { %>
           <tr>
@@ -93,10 +105,30 @@
       </table>
     </div>
     
+=======
+       <tbody>
+      <% cart.forEach(item => { %>
+        <tr>
+          <td><img src="<%= item.menu_image %>" width="100"></td>
+          <td><%= item.menu_title %></td>
+          <td>$<%= item.menu_price %></td>
+          <td><%= item.quantity %></td>
+          <td>$<%= item.total_price %></td>
+          <td>
+            <button class="update-button">Update</button>
+            <button class="delete-button">Delete</button>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+    </table>
+
+>>>>>>> 8343f8cf2a57410816c177bf41f77f3f4dc2b63f
       <div class="total-section">
         <% const totalAmount = cart.reduce((sum, item) => sum + item.total_price, 0) %>
         <p>Total Amount: Php <%= totalAmount.toFixed(2) %></p>
         <!-- Add the following form to submit the cart items for checkout -->
+<<<<<<< HEAD
         <form action="/customer/checkout" method="post" id="checkoutForm">
           <% cart.forEach(item => { %>
             <input type="hidden" name="menu_id[]" value="<%= item.menu_id %>">
@@ -115,8 +147,22 @@
             window.location.href = '/customer/orders';
           });
         </script>
+=======
+        <form action="/customer/checkout" method="post">
+          <% cart.forEach(item => { %>
+            <input type="hidden" name="cart[]" value='<%= JSON.stringify(item) %>'>
+            <input type="hidden" name="menu_title[]" value='<%= item.menu_title %>'>
+            <input type="hidden" name="menu_id[]" value='<%= item.menu_id %>'>
+            <input type="hidden" name="menu_price[]" value='<%= item.menu_price %>'>
+          <% }); %>
+          <button type="submit" class="checkout-button">Checkout</button>
+        </form>
+        
+>>>>>>> 8343f8cf2a57410816c177bf41f77f3f4dc2b63f
       </div>
     </div>
+
+
   <%- include('../partials/footer') %>
 </body>
 </html>
