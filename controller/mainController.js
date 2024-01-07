@@ -10,11 +10,8 @@ exports.getIndex = (req,res)=>{
     })
   })
 }
-<<<<<<< HEAD
 
 //Admin Side
-=======
->>>>>>> aeb233e14e1978fb968e8b06ecbd9165e0511b18
 exports.getDash = (req, res) => {
   const menuQuery = "SELECT COUNT(*) AS menu_count FROM menu";
   const ordersQuery = "SELECT COUNT(*) FROM orders";
@@ -48,11 +45,8 @@ exports.isAuthenticated = (req, res, next) => {
       res.redirect('/showLogin');
     }
   };
-<<<<<<< HEAD
 
-=======
 //Admin Side
->>>>>>> aeb233e14e1978fb968e8b06ecbd9165e0511b18
 // Menu Controller
 exports.getMenu = (req,res)=>{
   const sql ="SELECT menu.menu_id,menu.menu_title, menu.menu_desc, menu.menu_price, menu.menu_status, menu.menu_image, category.cat_title FROM menu JOIN category ON menu.cat_id = category.cat_id";;
@@ -148,6 +142,7 @@ exports.deleteMenu = (req,res)=>{
     res.redirect('/admin/menu');
   });
 }
+
 //Category Controller
 exports.getCategory = (req,res)=>{
   const sql = "SELECT * FROM category";
@@ -157,6 +152,8 @@ exports.getCategory = (req,res)=>{
 
   });
 }
+
+// Add Category
 exports.getAddCategory = (req,res)=>{
   const sql = "SELECT * FROM category";
   con.query(sql,[],(err,results)=>{
@@ -172,6 +169,7 @@ exports.addCategory = (req,res)=>{
     res.redirect('/admin/category');
   });
 }
+// Delete Category
 exports.deleteCategory = (req,res)=>{
   const id = req.params.id;
   const sql = "DELETE FROM category WHERE cat_id = ?";
@@ -182,6 +180,30 @@ exports.deleteCategory = (req,res)=>{
     res.redirect('/admin/category');
   });
 }
+
+// Edit Category
+exports.editCategory = (req,res)=>{
+  const cat_id = req.params.id;
+  const sql = 'SELECT * FROM category WHERE cat_id = ?';
+  con.query(sql,[cat_id],(err,results)=>{
+    if(err) throw err;
+    console.log(results);
+    res.render('admin/category/editCategory',{cat:results});
+  })
+};
+
+exports.updateCategory = (req,res)=>{
+  const id = req.params.id;
+  const {cat_title,cat_desc} = req.body;
+  const sql = 'UPDATE category SET cat_title = ?, cat_desc = ? WHERE cat_id = ?';
+
+  con.query(sql,[cat_title,cat_desc,id],(err,results)=>{
+    req.flash('messages','Category item successfully updated.');
+    res.redirect('/admin/category');
+  })
+}
+
+
 // Orders
 exports.getAdminOrders = (req, res) => {
   const sql =

@@ -32,6 +32,8 @@ router.post('/admin/menu/delete/:id',mainCon.isAuthenticated,mainCon.deleteMenu)
 router.get('/admin/category',mainCon.isAuthenticated,mainCon.getCategory);
 router.get('/admin/addCategory',mainCon.isAuthenticated,mainCon.getAddCategory);
 router.post('/admin/addCategory/add',mainCon.isAuthenticated,mainCon.addCategory);
+router.get('/admin/editCategory/:id',mainCon.isAuthenticated,mainCon.editCategory);
+router.post('/admin/updateCategory/:id',mainCon.isAuthenticated,mainCon.updateCategory);
 router.post('/admin/category/delete/:id',mainCon.isAuthenticated,mainCon.deleteCategory);
 // Orders
 router.get('/admin/order',mainCon.isAuthenticated,mainCon.getAdminOrders);
