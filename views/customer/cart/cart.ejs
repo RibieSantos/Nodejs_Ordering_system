@@ -14,7 +14,7 @@
       box-sizing: border-box;
     }
     .cart-container {
-      max-width: 800px;
+      
       margin: 80px auto 0;
     }
     .cart-table {
@@ -53,11 +53,16 @@
 </head>
 <body>
   <%- include('../partials/nav') %>
-  <div class="cart-container">
+  <div class="cart-container container">
     <center>
       <h1>Cart</h1>
     </center>
-    <table class="cart-table">
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table data-table"
+      >
       <thead>
         <tr>
           <th>Image</th>
@@ -68,29 +73,38 @@
           <th>Action</th>
         </tr>
       </thead>
-       <tbody>
-      <% cart.forEach(item => { %>
-        <tr>
-          <td><img src="<%= item.menu_image %>" width="100"></td>
-          <td><%= item.menu_title %></td>
-          <td>$<%= item.menu_price %></td>
-          <td><%= item.quantity %></td>
-          <td>$<%= item.total_price %></td>
-          <td>
-            <button class="update-button">Update</button>
-            <button class="delete-button">Delete</button>
-          </td>
-        </tr>
-      <% }); %>
-    </tbody>
-    </table>
+      <tbody>
+        <% cart.forEach(item => { %>
+          <tr>
+            <td><img src="<%= item.menu_image %>" width="100"></td>
+            <td><%= item.menu_title %></td>
+            <td>$<%= item.menu_price %></td>
+            <td><%= item.quantity %></td>
+            <td>$<%= item.total_price %></td>
+            <td>
+              <button class="btn btn-success">Update</button>
+              <button class="btn btn-danger">Delete</button>
+            </td>
+          </tr>
+          <!-- Add hidden inputs for menu_id, assuming menu_id is a property of each item -->
+          <input type="hidden" name="menu_id[]" value="<%= item.menu_id %>">
+        <% }); %>
+      </tbody>
+      </table>
+    </div>
+    
       <div class="total-section">
         <% const totalAmount = cart.reduce((sum, item) => sum + item.total_price, 0) %>
         <p>Total Amount: Php <%= totalAmount.toFixed(2) %></p>
         <!-- Add the following form to submit the cart items for checkout -->
         <form action="/customer/checkout" method="post" id="checkoutForm">
-          <input type="hidden" name="cart" value="<%- JSON.stringify(cart) %>">
-
+          <% cart.forEach(item => { %>
+            <input type="hidden" name="menu_id[]" value="<%= item.menu_id %>">
+            <input type="hidden" name="quantity[]" value="<%= item.quantity %>">
+            <input type="hidden" name="total_price[]" value="<%= item.total_price %>">
+          <% }); %>
+          <!-- Add this hidden input field to include the cart data -->
+          <input type="hidden" name="cart" value="<%= JSON.stringify(cart) %>">
           <input type="hidden" name="status" value="Pending">
           <button type="submit" class="checkout-button">Checkout</button>
         </form>
@@ -101,8 +115,6 @@
             window.location.href = '/customer/orders';
           });
         </script>
-        
-        
       </div>
     </div>
   <%- include('../partials/footer') %>

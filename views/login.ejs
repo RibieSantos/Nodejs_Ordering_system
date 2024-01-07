@@ -16,13 +16,14 @@
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <p><%= message %></p>
+        
 
         <div class="card">
           <a href="/"><img src="assets/images/1.png" style="height: 250px; object-fit: cover;" class="card-img-top img-fluid" alt="Login Image"></a>
           
           <div class="card-body">
             <h1 class="card-title text-center">Login</h1>
+            <p class="text-center text-danger"><%= message %></p>
             <form action="/login" method="post">
               <div class="form-group">
                 <label for="email">Email:</label>

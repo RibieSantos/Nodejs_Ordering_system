@@ -268,15 +268,20 @@ exports.getHome = (req, res) => {
 //Cart Update the getCart function to fetch cart items from the database
 exports.getCart = (req, res) => {
   const id = req.session.user.id; // Assuming you have user session data
+
   const sql = 'SELECT cart_id, menu_image, menu_title, menu_price, quantity, total_price FROM cart WHERE id = ?';
+
   con.query(sql, [id], (err, results) => {
     if (err) {
       console.error('Error querying cart items:', err);
       return res.status(500).send('Internal Server Error');
     }
+
     res.render('customer/cart/cart', { cart: results });
   });
 };
+
+
 exports.getOrders = (req, res) => {
   const userId = req.session.user.user_id;
   const sql = `
@@ -341,42 +346,72 @@ exports.addToCart = (req, res) => {
 };
 // Checkout Button
 exports.checkout = (req, res) => {
-  const userId = req.session.user.user_id;
-  const { cart, status } = req.body;
+  const userId = req.session.user.id;
+  const cartItems = req.body.cart; // Array of cart items
 
-  try {
-    cart = JSON.parse(req.body.cart);
-  } catch (err) {
-    console.error('Error parsing cart data:', err);
-    return res.status(400).send('Invalid cart data');
-  }
+  // Assuming menu_title is included in the request body
+  const menuTitles = req.body.menu_title;
+  const menuPrices = req.body.menu_price;
 
-  const insertOrderSQL = 'INSERT INTO orders (user_id, menu_id, quantity, total_amount, ord_date, status) VALUES (?, ?, ?, ?, NOW(), "Pending")';
-  const deleteCartSQL = 'DELETE FROM cart WHERE user_id = ?';
+  // Array to store orders
+  const orders = [];
 
-  // Iterate through the items in the cart and insert them into the 'orders' table
-  cart.forEach((item) => {
-    const { menu_id, quantity, total_price } = item;
-    con.query(insertOrderSQL, [userId, menu_id, quantity, total_price, status], (err) => {
-      if (err) {
-        console.error('Error inserting order:', err);
-        return res.status(500).send('Internal Server Error');
-      }
-    });
-  });
-
-  // Delete the cart items
-  con.query(deleteCartSQL, [userId], (err) => {
+  // Fetch the menu_ids corresponding to the cart items
+  const getMenuIdsQuery = 'SELECT menu_id FROM cart WHERE id = ?';
+  con.query(getMenuIdsQuery, [userId], (err, cartMenuIds) => {
     if (err) {
-      console.error('Error deleting cart items:', err);
+      console.error('Error fetching menu_ids from cart:', err);
       return res.status(500).send('Internal Server Error');
     }
 
-    // Redirect to the orders page
-    res.redirect('/customer/orders');
-  });
-};
+    // Iterate through the cart items and insert them into the orders table
+    cartItems.forEach((item, index) => {
+      const { quantity, total_price } = JSON.parse(item);
+      const menuTitle = menuTitles[index];
+      const menuPrice = menuPrices[index];
+      const menuId = cartMenuIds[index].menu_id; // Fetch menu_id from the fetched array
 
+      // Validate menuId isn't null before insertion
+      if (!menuId) {
+        console.error('Menu ID is null or invalid');
+        return res.status(400).send('Invalid menu ID');
+      }
+
+      const insertOrderQuery = 'INSERT INTO orders (id, menu_id, menu_title, menu_price, quantity, total_price, ord_date) VALUES (?, ?, ?, ?, ?, ?, NOW())';
+      con.query(insertOrderQuery, [userId, menuId, menuTitle, menuPrice, quantity, total_price], (err, result) => {
+        if (err) {
+          console.error('Error placing order:', err);
+          return res.status(500).send('Internal Server Error');
+        }
+        // Store the order details in the orders array
+        orders.push({
+          id: userId,
+          menu_id: menuId,
+          menu_title: menuTitle,
+          menu_price: menuPrice,
+          quantity,
+          total_price
+        });
+
+        // Check if all orders are processed
+        if (orders.length === cartItems.length) {
+          // Delete cart items after successful order placement
+          const deleteCartQuery = 'DELETE FROM cart WHERE id = ?';
+          con.query(deleteCartQuery, [userId], (err, deleteResult) => {
+            if (err) {
+              console.error('Error deleting cart items:', err);
+              return res.status(500).send('Internal Server Error');
+            }
+            // Handle successful order placement and cart deletion
+            res.render('customer/orders/orders', { orders }); // Render a confirmation page with orders
+          }); 
+        }
+      });
+    });
+  });
+
+  // Optionally, you can redirect the user or render a confirmation page after processing the orders
+};
 
 //logout
 exports.logout = (req, res) => {
