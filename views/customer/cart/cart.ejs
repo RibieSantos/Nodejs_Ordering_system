@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <%- include('../partials/header') %>
   <title>Cart</title>
+  
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -53,10 +54,12 @@
 </head>
 <body>
   <%- include('../partials/nav') %>
+
   <div class="cart-container">
     <center>
       <h1>Cart</h1>
     </center>
+
     <table class="cart-table">
       <thead>
         <tr>
@@ -84,27 +87,25 @@
       <% }); %>
     </tbody>
     </table>
+
       <div class="total-section">
         <% const totalAmount = cart.reduce((sum, item) => sum + item.total_price, 0) %>
         <p>Total Amount: Php <%= totalAmount.toFixed(2) %></p>
         <!-- Add the following form to submit the cart items for checkout -->
-        <form action="/customer/checkout" method="post" id="checkoutForm">
-          <input type="hidden" name="cart" value="<%- JSON.stringify(cart) %>">
-
-          <input type="hidden" name="status" value="Pending">
+        <form action="/customer/checkout" method="post">
+          <% cart.forEach(item => { %>
+            <input type="hidden" name="cart[]" value='<%= JSON.stringify(item) %>'>
+            <input type="hidden" name="menu_title[]" value='<%= item.menu_title %>'>
+            <input type="hidden" name="menu_id[]" value='<%= item.menu_id %>'>
+            <input type="hidden" name="menu_price[]" value='<%= item.menu_price %>'>
+          <% }); %>
           <button type="submit" class="checkout-button">Checkout</button>
         </form>
         
-        <script>
-          document.getElementById('checkoutForm').addEventListener('submit', function () {
-            alert('Checkout successful! Redirecting to orders page.');
-            window.location.href = '/customer/orders';
-          });
-        </script>
-        
-        
       </div>
     </div>
+
+
   <%- include('../partials/footer') %>
 </body>
 </html>

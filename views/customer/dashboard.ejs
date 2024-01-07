@@ -20,18 +20,6 @@
       <center>
         <h1>Menu</h1>
       </center>
-<<<<<<< HEAD
-      <!-- Product Cards -->
-      <% menu.forEach(product => { %>
-        <div class="product-card" data-toggle="modal" data-target="#productModal" data-image="<%= product.menu_image %>" data-title="<%= product.menu_title %>" data-price="<%= product.menu_price %>">
-          <img class="product-image" src="/foods/<%= product.menu_image %>" alt="<%= product.menu_title %>" />
-          <div class="product-title"><%= product.menu_title %></div>
-          <div class="product-price">$<%= product.menu_price %></div>
-          <button class="add-to-cart-button" onclick="addToCart('<%= product.menu_id %>', '<%= product.menu_image %>', '<%= product.menu_title %>', '<%= product.menu_price %>')">Add to Cart</button>
-        </div>
-
-        <!-- Modal to Add to Cart to -->
-=======
       <div class="row">
         <!-- Product Cards -->
         <% menu.forEach(product => { %>
@@ -40,7 +28,7 @@
             <img class="card-img-top" src="<%= product.menu_image %>" />
             <div class="card-body">
               <h5 class="card-title"><%= product.menu_title %></h5>
-              <p class="card-text">Php <%= product.menu_price %></p>
+              <p class="card-text">$<%= product.menu_price %></p>
               <button class="btn btn-primary addToCartBtn" 
               data-image="<%= product.menu_image %>" 
               data-title="<%= product.menu_title %>" 
@@ -53,8 +41,8 @@
         <% }); %>
       </div>
     </div>
+
     <!-- Modal to Add to Cart to -->
->>>>>>> aeb233e14e1978fb968e8b06ecbd9165e0511b18
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -65,7 +53,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <img id="modalProductImage" class="product-image" src="/foods/<%= product.menu_image %>" alt="<%= product.menu_title %>" />
+            <img id="modalProductImage" class="product-image" src="" alt="Product Image" />
             <div id="modalProductTitle" class="product-title"></div>
             <div id="modalProductPrice" class="product-price"></div>
             <label for="quantityInput">Quantity:</label>
@@ -78,37 +66,35 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-      <% }); %>
-    </div>
 
-    
-
-=======
->>>>>>> aeb233e14e1978fb968e8b06ecbd9165e0511b18
     <%- include('./partials/footer') %>
+    
     <script>
     // Handle Add to Cart functionality when clicking product cards
 $('.addToCartBtn').on('click', function () {
   const image = $(this).data('image');
   const title = $(this).data('title');
   const price = $(this).data('price');
+
   // Populate modal with selected product details
   $('#modalProductImage').attr('src', image);
   $('#modalProductTitle').text(title);
   $('#modalProductPrice').text('Price: $' + price);
   $('#quantityInput').val('1');
+
   // Store product details for adding to cart
   $('#addToCartBtn').data('image', image);
   $('#addToCartBtn').data('title', title);
   $('#addToCartBtn').data('price', price);
 });
+
 // Handle Add to Cart button inside the modal
 function addToCart() {
   const image = $('#modalProductImage').attr('src');
   const title = $('#modalProductTitle').text();
   const price = $('#modalProductPrice').text().replace('Price: $', ''); // Ensure the price is correctly extracted
   const quantity = $('#quantityInput').val(); // Get selected quantity
+
   // AJAX request to add item to cart
   $.post('/addToCart', {
     menu_image: image,
@@ -124,6 +110,10 @@ function addToCart() {
     alert('Error adding to cart: ' + error.responseJSON.message); // Show error message
   });
 }
+
+
     </script>
+    
+
   </body>
 </html>
